@@ -80,7 +80,9 @@ async function syncJsonToPg() {
         console.error("❌ Sync Error:", e.message);
     }
 }
-syncJsonToPg();
+if (!process.env.VERCEL) {
+    syncJsonToPg();
+}
 
 
 const uploadDir = path.join(__dirname, 'assets', 'uploads');
@@ -3876,11 +3878,12 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection:', reason);
 });
 
-startHourlyCheck();
-
-app.listen(PORT, () => {
-    console.log(`🚀 Dashboard API is running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+    startHourlyCheck();
+    app.listen(PORT, () => {
+        console.log(`🚀 Dashboard API is running on port ${PORT}`);
+    });
+}
 
 
 // --- 1-OKTYABR BAYRAM TABRIGI VA TARQATISH ---
@@ -3974,4 +3977,4 @@ launchBotSafe();
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
 
-
+module.exports = app;
