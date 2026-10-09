@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>(function(){if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light-mode');}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bosh sahifa - Farg‘ona VMMTB Davomat</title>
+    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hero-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: #6366f1;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .btn-start {
+            margin-top: auto;
+            background: #6366f1;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* 2026-2027 Academic Year Banner */
+        .welcome-banner-container {
+            max-width: 1050px;
+            margin: 25px auto 10px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(49, 46, 129, 0.85) 50%, rgba(88, 28, 135, 0.9) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.45);
+            border-radius: 24px;
+            padding: 26px 34px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(236, 72, 153, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.35);
+                border-color: rgba(168, 85, 247, 0.45);
+            }
+            100% {
+                box-shadow: 0 25px 50px -10px rgba(236, 72, 153, 0.55);
+                border-color: rgba(236, 72, 153, 0.65);
+            }
+        }
+
+        .banner-left {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .banner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #1e1b4b;
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+        }
+
+        .banner-title {
+            font-size: 1.95rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 10px;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        .banner-title .gradient-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #facc15 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .banner-subtitle {
+            color: #cbd5e1;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            margin: 0;
+            max-width: 650px;
+        }
+
+        .banner-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .banner-stat-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 10px 18px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-stat-box .stat-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .banner-stat-box .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner-stat-box .stat-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .banner-stat-box .stat-lbl {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .banner-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.35);
+            white-space: nowrap;
+        }
+
+        .banner-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        @media (max-width: 860px) {
+            .welcome-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 22px 20px;
+                gap: 18px;
+            }
+            .banner-right {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .banner-title {
+                font-size: 1.55rem;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .banner-right {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .banner-btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-index">
+    <!-- =========================================================================
+         CINEMATIC INTRO VIDEO (10-SEKUNDLIK OCHILISH VIDEOSI)
+         ========================================================================= -->
+    <div id="appIntroSplash" class="app-intro-splash">
+        <div class="splash-video-wrapper">
+            <video id="splashIntroVideo" class="splash-intro-video" autoplay muted playsinline preload="auto">
+                <source src="assets/IMG_5279.MP4" type="video/mp4">
+            </video>
+            
+            <div class="splash-video-overlay">
+                <div class="splash-video-header">
+                    <div class="splash-vmmtb-pill">
+                        <img src="assets/vmmtb_logo.png" onerror="this.src='../assets/vmmtb_logo.png'" alt="VMMTB" class="splash-pill-logo">
+                        <span data-i18n="sidebar_org_title">Farg‘ona viloyati maktabgacha va maktab ta'limi boshqarmasi</span>
+                    </div>
+                    <div class="splash-controls-group">
+                        <button type="button" class="splash-ctrl-btn" id="splashSoundBtn" onclick="toggleSplashSound()" title="Ovozni yoqish/o'chirish">
+                            <i class="fas fa-volume-mute" id="splashSoundIcon"></i> <span>Ovoz</span>
+                        </button>
+                        <button type="button" class="splash-ctrl-btn splash-skip-btn" onclick="finishSplashScreen()" title="O'tkazib yuborish">
+                            <span>O'tkazib yuborish</span> <i class="fas fa-forward"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="splash-video-footer">
+                    <div class="splash-video-progress-track">
+                        <div id="splashVideoProgressBar" class="splash-video-progress-bar"></div>
+                    </div>
+                    <div class="splash-video-status">
+                        <span id="splashVideoStatusText"><i class="fas fa-play-circle"></i> Farg‘ona viloyati davomat axborot tizimi</span>
+                        <span id="splashVideoTimerText">0s / 10s</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 1. FULL-WIDTH TOP NAVBAR (FULL SCREEN WIDTH) -->
+        <!-- 1. TOP HEADER (68px) -->
+        <!-- 1. TOP HEADER (68px, NO 3-LINES HAMBURGER) -->
+    <header class="app-top-header" id="appTopHeader">
+        <div class="top-header-left">
+            <a href="index.html" class="header-brand">
+                <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="header-logo">
+                <div class="header-brand-info">
+                    <span class="header-brand-title">DAVOMAT</span>
+                    <span class="header-brand-sub">Farg‘ona VMMTB</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="top-header-center">
+            <div class="header-widget weather" id="weatherWidget"><i class="fas fa-cloud-sun"></i> <span>...</span></div>
+            <div class="header-widget clock"><i class="fas fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+            <div class="header-widget countdown"><i class="fas fa-hourglass-half"></i> <span id="submissionTimer">00:00:00</span></div>
+        </div>
+
+        <div class="top-header-right">
+            <!-- 3 Languages Switcher: O‘zb (Lotin), Ўзб (Кирилл), Рус (Русский) -->
+            <div class="lang-switcher">
+                <button onclick="changeLang('uz')" class="lang-btn" id="uz_btn" title="O'zbekcha (Lotin)">O‘zb</button>
+                <button onclick="changeLang('oz')" class="lang-btn" id="oz_btn" title="Ўзбекча (Кирилл)">Ўзб</button>
+                <button onclick="changeLang('ru')" class="lang-btn" id="ru_btn" title="Русский">Рус</button>
+            </div>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" title="Mavzu (Dark/Light)" style="background:rgba(255,255,255,0.08); border:none; color:#fff; width:38px; height:38px; border-radius:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="topHeaderAuthContainer">
+                <a href="login.html" class="top-header-login-btn" id="topHeaderLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> <span data-i18n="nav_login">Kirish</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE BACKDROP -->
+    <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop" onclick="toggleSidebar()"></div>
+    
+
+    <!-- 2. SUB-HEADER LEFT SLIDEBAR (STARTS BELOW TOP HEADER) -->
+        <!-- 2. SLIDEBAR / SIDEBAR -->
+        <!-- FLOATING DOCK TOGGLE BUTTON (DOIMIY TURUVCHI SLIDEBAR TUGMASI) -->
+    <button class="sidebar-floating-toggle-btn" id="sidebarFloatingBtn" onclick="toggleSidebar()" title="Menyuni ochish/yopish">
+        <i class="fas fa-bars" id="sidebarFloatingIcon"></i>
+    </button>
+
+    <!-- 2. SLIDEBAR / SIDEBAR (NAVBARGA YOPISHMAGAN, AJRALIB TURUVCHI DOCK) -->
+    <aside class="sidebar-slidebar" id="appSidebar">
+        <!-- Slidebar Right Edge Collapse Button -->
+        <button class="sidebar-edge-toggle-btn" id="sidebarEdgeToggleBtn" onclick="toggleSidebar()" title="Menyuni berkitish">
+            <i class="fas fa-chevron-left" id="sidebarEdgeIcon"></i>
+        </button>
+        <!-- O'ZBEK MILLIY ISLIMIY NAQSH MEDALYONI -->
+                <!-- VMMTB RASMIY LOGO VA BOSHQARMA NOMI -->
+        <div class="sidebar-vmmtb-branding">
+            <img src="assets/vmmtb_logo.png" onerror="this.src='../assets/vmmtb_logo.png'" alt="VMMTB" class="sidebar-vmmtb-logo">
+            <div class="sidebar-vmmtb-title" data-i18n="sidebar_org_title">
+                Farg‘ona viloyati maktabgacha va maktab ta'limi boshqarmasi
+            </div>
+        </div>
+
+
+
+        <div class="sidebar-section-title" data-i18n="menu_main_section">Asosiy Bo'limlar</div>
+        <div class="sidebar-menu-list">
+            <a href="index.html" class="sidebar-nav-link active">
+                <i class="fas fa-home" style="color:#60a5fa;"></i> <span class="sidebar-text" data-i18n="menu_home">Bosh Sahifa</span>
+            </a>
+            <a href="davomat.html" class="sidebar-nav-link ">
+                <i class="fas fa-edit" style="color:#38bdf8;"></i> <span class="sidebar-text" data-i18n="menu_davomat">Davomat Kiritish</span>
+            </a>
+            <a href="xorij.html" class="sidebar-nav-link ">
+                <i class="fas fa-globe" style="color:#06b6d4;"></i> <span class="sidebar-text" data-i18n="menu_xorij">Xorij Nazorati</span>
+            </a>
+            <a href="inspektor.html" class="sidebar-nav-link ">
+                <i class="fas fa-user-shield" style="color:#f59e0b;"></i> <span class="sidebar-text" data-i18n="menu_inspektor">Inspektor Nazorati</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-nav-link ">
+                <i class="fas fa-chart-pie" style="color:#a855f7;"></i> <span class="sidebar-text" data-i18n="menu_dashboard">Dashboard</span>
+            </a>
+            
+            <div class="sidebar-sub-menu" id="dashSubMenu" style="display: none;">
+                <button class="sidebar-sub-item active" onclick="showTab('viloyat')" id="tab_viloyat"><i class="fas fa-city" style="color:#38bdf8;"></i> <span data-i18n="menu_viloyat_svod">Viloyat Svod</span></button>
+                <button class="sidebar-sub-item" onclick="location.href='xarita.html'" id="tab_xarita"><i class="fas fa-map-location-dot" style="color:#10b981;"></i> <span data-i18n="menu_map">Xarita (SVG)</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('tuman')" id="tab_tuman"><i class="fas fa-school" style="color:#a855f7;"></i> <span data-i18n="menu_tuman_svod">Tuman Svod</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('students')" id="tab_students"><i class="fas fa-users" style="color:#ef4444;"></i> <span data-i18n="menu_students">Sababsizlar</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('recent')" id="tab_recent"><i class="fas fa-bolt" style="color:#f59e0b;"></i> <span data-i18n="menu_live">Jonli Monitor</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('analysis')" id="tab_analysis"><i class="fas fa-chart-line" style="color:#8b5cf6;"></i> <span data-i18n="menu_analysis">Tahlil & Grafika</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('parents')" id="tab_parents"><i class="fas fa-user-friends" style="color:#ec4899;"></i> <span data-i18n="menu_parents">Ota-onalar Nazorati</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('ranking')" id="tab_ranking"><i class="fas fa-trophy" style="color:#f59e0b;"></i> <span data-i18n="menu_ranking">MMIBDO‘‘ Reyting</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('profile')" id="tab_profile"><i class="fas fa-user-cog" style="color:#94a3b8;"></i> <span data-i18n="menu_profile">Profil</span></button>
+            </div>
+        </div>
+
+        <div class="sidebar-section-title" data-i18n="menu_system_section">Boshqaruv & Tizim</div>
+        <div class="sidebar-menu-list">
+            <a href="admin.html" class="sidebar-nav-link ">
+                <i class="fas fa-sliders" style="color:#ec4899;"></i> <span class="sidebar-text" data-i18n="menu_admin">Admin Panel</span>
+            </a>
+            <a href="oferta.html" class="sidebar-nav-link ">
+                <i class="fas fa-file-signature" style="color:#facc15;"></i> <span class="sidebar-text" data-i18n="menu_oferta">Ommaviy Oferta</span>
+            </a>
+            <a href="about.html?tab=hujjatlar" class="sidebar-nav-link">
+                <i class="fas fa-file-contract" style="color:#c084fc;"></i> <span class="sidebar-text" data-i18n="menu_docs">Me'yoriy Hujjatlar</span>
+            </a>
+            <a href="about.html" class="sidebar-nav-link ">
+                <i class="fas fa-info-circle" style="color:#94a3b8;"></i> <span class="sidebar-text" data-i18n="menu_about">Biz Haqimizda</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 3. MOBILE BOTTOM NAVIGATION -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-bottom-item active"><i class="fas fa-home"></i><span>Asosiy</span></a>
+        <a href="davomat.html" class="mobile-bottom-item "><i class="fas fa-edit"></i><span>Davomat</span></a>
+        <a href="dashboard.html" class="mobile-bottom-item "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="inspektor.html" class="mobile-bottom-item "><i class="fas fa-user-shield"></i><span>Inspektor</span></a>
+        <a href="javascript:void(0)" onclick="toggleSidebar()" class="mobile-bottom-item"><i class="fas fa-bars"></i><span>Menyu</span></a>
+    </nav>
+    
+    <!-- ASOSIY KONTENT MAYDONI (MAIN VIEWPORT) -->
+        <!-- ASOSIY KONTENT: IXCHAM VA SHUKUHZOR BOSH SAHIFA -->
+        <!-- ASOSIY KONTENT: NOODATIY SHUKUHZOR BOSH SAHIFA VA REAL PLASTIK KARTALAR -->
+        <!-- ASOSIY KONTENT: NOODATIY SHUKUHZOR BOSH SAHIFA, YUQORIDA STATISTIKA, PASTDA KARTALAR -->
+    <main class="main-content-wrapper app-main-viewport">
+        <div class="home-compact-container">
+
+            <!-- DAVLATIMIZ RAHBARINING ILM VA TA'LIM HAQIDAGI HISTIK SO'ZLARI -->
+                        <!-- DAVLATIMIZ RAHBARINING ILM VA TA'LIM HAQIDAGI TARIXIY SO'ZLARI (BAYROQ HILPIRASHI VA RASMIY GERB) -->
+                        <!-- DAVLATIMIZ RAHBARINING ILM VA TA'LIM HAQIDAGI TARIXIY SO'ZLARI (RASMIY FOTO VA SHISHASIMON FON) -->
+                        <!-- DAVLATIMIZ RAHBARINING ILM VA TA'LIM HAQIDAGI TARIXIY SO'ZLARI (30-SEKUNDLIK SIKL VA SHISHASIMON FON) -->
+            <div class="president-quote-card" id="presidentQuoteCard" style="margin-top: 15px; margin-bottom: 25px;">
+                <div class="president-portrait-frame">
+                    <img src="assets/president_mirziyoyev.png" onerror="this.src='../assets/president_mirziyoyev.png'" alt="Shavkat Mirziyoyev" class="president-portrait-img">
+                </div>
+                <div class="president-quote-body">
+                    <div class="president-quote-header-wrap">
+                        <span class="president-quote-badge-title" id="presidentQuoteCategoryTitle">
+                            <i class="fas fa-quote-left" style="color:#38bdf8;"></i> <span id="presidentQuoteTitle">Ilm — Taraqqiyot Poydevori</span>
+                        </span>
+                        <div class="quote-indicator-dots" id="quoteIndicatorDots">
+                            <span class="quote-dot active" onclick="switchPresidentQuote(0)"></span>
+                            <span class="quote-dot" onclick="switchPresidentQuote(1)"></span>
+                            <span class="quote-dot" onclick="switchPresidentQuote(2)"></span>
+                        </div>
+                    </div>
+                    <p class="president-quote-text" id="presidentQuoteText" data-i18n="president_quote_home">
+                        «Biz yangi O‘zbekistonni barpo etishda faqat va faqat ilmga, ta’limga tayanamiz. Dunyoda ilmdan boshqa najot yo‘q va bo‘lishi ham mumkin emas!»
+                    </p>
+                    <div class="president-quote-meta">
+                        <span class="president-author-name" data-i18n="president_author">— Shavkat Mirziyoyev</span>
+                        
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <!-- Asosiy Sarlavha -->
+            <h1 class="home-title" data-i18n="hero_title">
+                Farg'ona Viloyati Davomat Nazorati Portali
+            </h1>
+
+            <p class="home-subtitle" data-i18n="hero_desc">
+                Maktabgacha va maktab ta'limi boshqarmasi tasarrufidagi barcha umumiy o'rta ta'lim muassasalarida o'quvchilar davomatini real vaqt rejimida yagona axborot tizimida monitoring qilish va tahlil etish platformasi.
+            </p>
+
+            <!-- Asosiy Harakat Tugmalari (CTA) -->
+            <div class="home-action-buttons">
+                <a href="davomat.html" class="home-primary-btn" title="Bugungi davomatni tezkor kiritish">
+                    <i class="fas fa-bolt"></i>
+                    <span data-i18n="btn_quick_davomat">Tezkor Davomat Kiritish</span>
+                </a>
+                <a href="dashboard.html" class="home-secondary-btn" title="Viloyat va tumanlar umumiy svodini ko'rish">
+                    <i class="fas fa-chart-pie"></i>
+                    <span data-i18n="btn_view_dashboard">Viloyat Svodini Ko'rish</span>
+                </a>
+                <a href="xarita.html" class="home-map-btn" title="19 ta tuman va shaharlar interaktiv xaritasi">
+                    <i class="fas fa-map-location-dot"></i>
+                    <span data-i18n="menu_map">Viloyat Xaritasi</span>
+                </a>
+            </div>
+
+            <!-- 2. STATISTIK MA'LUMOTLAR YUQORIDA (KARTALARDAN OLDIN) -->
+            <div class="home-stats-strip" style="margin-top: 10px; margin-bottom: 35px;">
+                <div class="home-stat-box">
+                    <div class="home-stat-icon-wrap" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="home-stat-meta">
+                        <div class="home-stat-value">19 ta</div>
+                        <div class="home-stat-label" data-i18n="stat_districts">Tuman va Shahar</div>
+                    </div>
+                </div>
+
+                <div class="home-stat-box">
+                    <div class="home-stat-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <div class="home-stat-meta">
+                        <div class="home-stat-value">960+</div>
+                        <div class="home-stat-label" data-i18n="stat_schools">Umumta'lim Maktabi</div>
+                    </div>
+                </div>
+
+                <div class="home-stat-box">
+                    <div class="home-stat-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="home-stat-meta">
+                        <div class="home-stat-value">700,000+</div>
+                        <div class="home-stat-label" data-i18n="stat_students">Jami O'quvchilar</div>
+                    </div>
+                </div>
+
+                <div class="home-stat-box">
+                    <div class="home-stat-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="home-stat-meta">
+                        <div class="home-stat-value">98.4%</div>
+                        <div class="home-stat-label" data-i18n="stat_avg">O'rtacha Qatnashish</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. REALISTIK ANIMATSIYALI PLASTIK TO'LOV KARTALARI (PASTDA) -->
+            <div class="cards-section-container">
+                <div class="cards-section-title">
+                    <i class="fas fa-credit-card" style="color: #f59e0b;"></i>
+                    <span data-i18n="cards_section_title">Tizim Obunasi va To'lov Uchun Rasmiy Bank Kartalari</span>
+                    <small style="display:block; font-size:0.82rem; color:#94a3b8; font-weight:normal; margin-top:4px;" data-i18n="cards_section_desc">
+                        (Karta raqami ustiga bosing — raqamdan avtomatik nusxa olinadi)
+                    </small>
+                </div>
+
+                <div class="cards-grid">
+                    <!-- HUMO PLASTIC CARD (BANK KARTASI) -->
+                    <div class="plastic-card humo-card" onclick="copyCardNumber('9860036635761863', 'HUMO Bank Kartasi')" title="Nusxa olish uchun bosing">
+                        <div class="card-glass-shine"></div>
+                        <div class="card-top-row">
+                            <div class="card-bank-info">
+                                <span class="bank-badge-title"><i class="fas fa-landmark"></i> <span data-i18n="card_bank_badge">BANK KARTASI</span></span>
+                                <span class="card-type-sub" data-i18n="card_country">O'zbekiston Respublikasi</span>
+                            </div>
+                            <div class="card-system-logo">
+                                <span class="humo-logo-text">HUMO</span>
+                            </div>
+                        </div>
+
+                        <div class="card-chip-row">
+                            <div class="emv-chip gold-chip">
+                                <div class="chip-line"></div>
+                                <div class="chip-line"></div>
+                            </div>
+                            <i class="fas fa-wifi contactless-icon"></i>
+                        </div>
+
+                        <!-- OLTIN RANGLI KARTA RAQAMI -->
+                        <div class="card-number-gold">
+                            <span>9860</span>
+                            <span>0366</span>
+                            <span>3576</span>
+                            <span>1863</span>
+                        </div>
+
+                        <div class="card-bottom-row">
+                            <div class="card-holder-col">
+                                <span class="card-label" data-i18n="card_holder_label">KARTA EGASI</span>
+                                <span class="card-holder-name">FERGHANAREGDAVOMAT</span>
+                            </div>
+                            <div class="card-copy-badge">
+                                <i class="fas fa-copy"></i> <span data-i18n="card_copy_btn">Nusxa olish</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VISA PLASTIC CARD (BANK KARTASI) -->
+                    <div class="plastic-card visa-card" onclick="copyCardNumber('4187800001321124', 'VISA Bank Kartasi')" title="Nusxa olish uchun bosing">
+                        <div class="card-glass-shine"></div>
+                        <div class="card-top-row">
+                            <div class="card-bank-info">
+                                <span class="bank-badge-title"><i class="fas fa-globe-americas"></i> <span data-i18n="card_bank_badge">BANK KARTASI</span></span>
+                                <span class="card-type-sub">International Platinum</span>
+                            </div>
+                            <div class="card-system-logo">
+                                <span class="visa-logo-text">VISA</span>
+                            </div>
+                        </div>
+
+                        <div class="card-chip-row">
+                            <div class="emv-chip gold-chip">
+                                <div class="chip-line"></div>
+                                <div class="chip-line"></div>
+                            </div>
+                            <i class="fas fa-wifi contactless-icon"></i>
+                        </div>
+
+                        <!-- OLTIN RANGLI KARTA RAQAMI -->
+                        <div class="card-number-gold">
+                            <span>4187</span>
+                            <span>8000</span>
+                            <span>0132</span>
+                            <span>1124</span>
+                        </div>
+
+                        <div class="card-bottom-row">
+                            <div class="card-holder-col">
+                                <span class="card-label" data-i18n="card_holder_label">KARTA EGASI</span>
+                                <span class="card-holder-name">DAVOMAT PRO SUBSCRIPTION</span>
+                            </div>
+                            <div class="card-copy-badge">
+                                <i class="fas fa-copy"></i> <span data-i18n="card_copy_btn">Nusxa olish</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    
+    <!-- 3. SMOOTH SCROLLING MARQUEE TICKER (AYLANUVCHI SARIQ LENTALI TEST REJIM) -->
+    <div class="app-system-test-banner" id="testModeBanner">
+        <div class="test-banner-marquee-track">
+            <div class="test-banner-marquee-content">
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+            </div>
+        </div>
+        <button onclick="document.getElementById('testModeBanner').style.display='none'" class="banner-close-btn" title="Yopish">&times;</button>
+    </div>
+
+    <!-- 4. KENGAYTIRILGAN TO'LIQ FOOTER (MANZIL, TELEFON, UZINFOCOM VA BETWEEN US HAMKOR) -->
+    <footer class="app-sticky-footer" id="appStickyFooter">
+        <div class="footer-col-left">
+            <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="footer-org-logo">
+            <div class="footer-org-details">
+                <div class="footer-org-title">Ferghanaregdavomat &bull; Farg‘ona VMMTB</div>
+                <div class="footer-org-sub">
+                    <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> Farg'ona sh., Dodxox ko'chasi, 2-uy &bull; 
+                    <i class="fas fa-phone-alt" style="color:#38bdf8;"></i> +998 91 328 44 00</div>
+            </div>
+        </div>
+
+        <div class="footer-col-center">
+            <div class="footer-uzinfocom-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span data-i18n="footer_uzinfocom">UZINFOCOM tomonidan nazoratdan o‘tgan</span>
+            </div>
+            <span class="footer-copy" data-i18n="footer_copy">&copy; 2026 Farg‘ona VMMTB. Barcha huquqlar himoyalangan.</span>
+        </div>
+
+        <div class="footer-col-right">
+            <span class="footer-partner-label" data-i18n="footer_partner">Rasmiy hamkor:</span>
+            <a href="https://t.me/between_us_team" target="_blank" class="footer-partner-box" title="Between Us rasmiy telegram kanali">
+                <img src="assets/partners/between_us_1.png" onerror="this.src='../assets/partners/between_us_1.png'" alt="Between Us" class="footer-partner-logo">
+                <span class="footer-partner-name">Between Us Team</span>
+            </a>
+        </div>
+    </footer>
+    <script src="script.js?v=4"></script>
+    <script src="promo-widget.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+

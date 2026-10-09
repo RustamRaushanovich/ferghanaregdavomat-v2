@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tahliliy Statistika - Farg'ona VMMTB</title>
+    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Local overrides for statika */
+        .container {
+            margin-top: 140px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-widgets-bar">
+        <div class="widget-item weather" id="weatherWidget"><i class="fas fa-cloud-sun"></i> <span>...</span></div>
+        <div class="widget-item clock"><i class="fas fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+        <div class="widget-item countdown"><i class="fas fa-hourglass-half"></i> <span
+                id="submissionTimer">00:00:00</span></div>
+
+        <div class="nav-controls" style="margin-left:auto; display:flex; align-items:center; gap:10px;">
+            <button onclick="toggleTheme()" class="theme-toggle-btn icon-btn" title="Mavzu"><i
+                    class="fas fa-moon"></i></button>
+            <select onchange="changeLang(this.value)" class="lang-select" id="langSelect">
+                <option value="uz">UZ</option>
+                <option value="ru">RU</option>
+            </select>
+        </div>
+
+        <div class="source-links">
+            <a href="https://ferghanaregdavomat.uz" class="source-link"><i class="fas fa-globe"></i> web</a>
+            <a href="https://t.me/ferghanaregdavomat_bot" class="source-link"><i class="fab fa-telegram"></i> bot</a>
+        </div>
+        <button class="login-mini-btn" onclick="location.href='login.html'"><i class="fas fa-sign-in-alt"></i>
+            Kirish</button>
+    </div>
+
+    
+            
+            <nav class="navbar">
+    <div class="nav-branding">
+        <a href="index.html" style="text-decoration:none; display:flex; align-items:center;">
+            <img src="assets/main_logo.jpg" onerror="this.src='/assets/logo.png'" class="main-top-logo" alt="Asosiy Logo" style="margin-right: 10px;">
+            <h3 style="color:white; margin:0; font-size:1.2rem; text-shadow:0 2px 4px rgba(0,0,0,0.5);">DAVOMAT</h3>
+        </a>
+    </div>
+    <div class="nav-links">
+        <a href="index.html" class="nav-item "><i class="fas fa-home"></i> <span>Asosiy</span></a>
+        <a href="davomat.html" class="nav-item "><i class="fas fa-edit"></i> <span>Davomat</span></a>
+        <a href="inspektor.html" class="nav-item "><i class="fas fa-user-shield"></i> <span>Inspektor</span></a>
+        <a href="xorij.html" class="nav-item "><i class="fas fa-globe"></i> <span>Xorij</span></a>
+        <a href="dashboard.html" class="nav-item "><i class="fas fa-chart-pie"></i> <span>Dashboard</span></a>
+        <a href="admin.html" class="nav-item "><i class="fas fa-cog"></i> <span>Admin</span></a>
+        <a href="about.html" class="nav-item "><i class="fas fa-info-circle"></i> <span>Biz haqimizda</span></a>
+    </div>
+</nav>
+
+
+    <div class="container" style="margin-top: 140px;">
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2><i class="fas fa-chart-bar"></i> Hududlar kesimida davomat (%)</h2>
+                <canvas id="districtChart" style="max-height: 500px;"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2><i class="fas fa-chart-pie"></i> Sabablar ulushi</h2>
+                <canvas id="reasonsChart" style="max-height: 500px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+
+    <script>
+        const token = localStorage.getItem('dashboard_token');
+        if (!token) location.href = '/login.html';
+
+        async function loadData() {
+            try {
+                const res = await fetch(`/api/stats/viloyat?date=${new Date().toISOString().split('T')[0]}`, {
+                    headers: { 'Authorization': token }
+                });
+                if (res.status === 401) { location.href = '/login.html'; return; }
+                const data = await res.json();
+
+                renderCharts(data);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderCharts(data) {
+            const labels = data.map(d => d.district);
+            const percents = data.map(d => d.avg_percent);
+
+            new Chart(document.getElementById('districtChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Davomat %',
+                        data: percents,
+                        backgroundColor: 'rgba(99, 102, 241, 0.6)',
+                        borderColor: '#6366f1',
+                        borderWidth: 2,
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#fff' } },
+                        x: { grid: { display: false }, ticks: { color: '#fff' } }
+                    },
+                    animation: { duration: 2500, easing: 'easeOutQuart' }
+                }
+            });
+
+            const totalSababli = data.reduce((a, b) => a + b.sababli, 0);
+            const totalSababsiz = data.reduce((a, b) => a + b.sababsiz, 0);
+
+            new Chart(document.getElementById('reasonsChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sababli', 'Sababsiz'],
+                    datasets: [{
+                        data: [totalSababli, totalSababsiz],
+                        backgroundColor: ['#10b981', '#ef4444'],
+                        borderWidth: 0,
+                        hoverOffset: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#fff', padding: 20, font: { size: 14 } } }
+                    },
+                    animation: { animateScale: true, duration: 2000 }
+                }
+            });
+        }
+
+        loadData();
+    </script>
+    <!-- Between Us Promo Widget -->
+    <script src="promo-widget.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <script>(function(){if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light-mode');}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ommaviy Oferta (Foydalanish shartlari) — Ferghanaregdavomat</title>
+    <link rel="stylesheet" href="style.css?v=2026">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .oferta-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 36px 30px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            color: #f1f5f9;
+            line-height: 1.8;
+        }
+
+        .oferta-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .oferta-header h1 {
+            font-size: 1.8rem;
+            color: #6366f1;
+            margin-bottom: 8px;
+        }
+
+        .oferta-header p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .oferta-section {
+            margin-bottom: 24px;
+        }
+
+        .oferta-section h3 {
+            color: #a5b4fc;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .oferta-section p, .oferta-section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .oferta-section ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .oferta-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #818cf8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+            color: #fff;
+        }
+    
+        html.light-mode .oferta-container {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border-color: rgba(203, 213, 225, 0.9) !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+            color: #1e293b !important;
+        }
+        html.light-mode .oferta-header h1 {
+            color: #0f172a !important;
+        }
+        html.light-mode .oferta-header p {
+            color: #475569 !important;
+        }
+        html.light-mode .oferta-section h3 {
+            color: #1e3a8a !important;
+            border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+        }
+        html.light-mode .oferta-section p, html.light-mode .oferta-section li {
+            color: #334155 !important;
+        }
+        
+</style>
+</head>
+
+<body class="page-oferta">
+
+    <!-- 1. FULL-WIDTH TOP NAVBAR (FULL SCREEN WIDTH) -->
+        <!-- 1. TOP HEADER (68px) -->
+        <!-- 1. TOP HEADER (68px, NO 3-LINES HAMBURGER) -->
+    <header class="app-top-header" id="appTopHeader">
+        <div class="top-header-left">
+            <a href="index.html" class="header-brand">
+                <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="header-logo">
+                <div class="header-brand-info">
+                    <span class="header-brand-title">DAVOMAT</span>
+                    <span class="header-brand-sub">Farg'ona VMMTB</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="top-header-center">
+            <div class="header-widget weather" id="weatherWidget"><i class="fas fa-cloud-sun"></i> <span>...</span></div>
+            <div class="header-widget clock"><i class="fas fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+            <div class="header-widget countdown"><i class="fas fa-hourglass-half"></i> <span id="submissionTimer">00:00:00</span></div>
+        </div>
+
+        <div class="top-header-right">
+            <!-- 3 Languages Switcher: O‘zb (Lotin), Ўзб (Кирилл), Рус (Русский) -->
+            <div class="lang-switcher">
+                <button onclick="changeLang('uz')" class="lang-btn" id="uz_btn" title="O'zbekcha (Lotin)">O‘zb</button>
+                <button onclick="changeLang('oz')" class="lang-btn" id="oz_btn" title="Ўзбекча (Кирилл)">Ўзб</button>
+                <button onclick="changeLang('ru')" class="lang-btn" id="ru_btn" title="Русский">Рус</button>
+            </div>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" title="Mavzu (Dark/Light)" style="background:rgba(255,255,255,0.08); border:none; color:#fff; width:38px; height:38px; border-radius:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="topHeaderAuthContainer">
+                <a href="login.html" class="top-header-login-btn" id="topHeaderLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> <span data-i18n="nav_login">Kirish</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE BACKDROP -->
+    <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop" onclick="toggleSidebar()"></div>
+    
+
+    <!-- 2. SUB-HEADER LEFT SLIDEBAR (STARTS BELOW TOP HEADER) -->
+        <!-- 2. SLIDEBAR / SIDEBAR -->
+        <!-- FLOATING DOCK TOGGLE BUTTON (DOIMIY TURUVCHI SLIDEBAR TUGMASI) -->
+    <button class="sidebar-floating-toggle-btn" id="sidebarFloatingBtn" onclick="toggleSidebar()" title="Menyuni ochish/yopish">
+        <i class="fas fa-bars" id="sidebarFloatingIcon"></i>
+    </button>
+
+    <!-- 2. SLIDEBAR / SIDEBAR (NAVBARGA YOPISHMAGAN, AJRALIB TURUVCHI DOCK) -->
+    <aside class="sidebar-slidebar" id="appSidebar">
+        <!-- Slidebar Right Edge Collapse Button -->
+        <button class="sidebar-edge-toggle-btn" id="sidebarEdgeToggleBtn" onclick="toggleSidebar()" title="Menyuni berkitish">
+            <i class="fas fa-chevron-left" id="sidebarEdgeIcon"></i>
+        </button>
+        <!-- O'ZBEK MILLIY ISLIMIY NAQSH MEDALYONI -->
+                <!-- VMMTB RASMIY LOGO VA BOSHQARMA NOMI -->
+        <div class="sidebar-vmmtb-branding">
+            <img src="assets/vmmtb_logo.png" onerror="this.src='../assets/vmmtb_logo.png'" alt="VMMTB" class="sidebar-vmmtb-logo">
+            <div class="sidebar-vmmtb-title" data-i18n="sidebar_org_title">
+                Farg‘ona viloyati maktabgacha va maktab ta'limi boshqarmasi
+            </div>
+        </div>
+
+
+
+        <div class="sidebar-section-title" data-i18n="menu_main_section">Asosiy Bo'limlar</div>
+        <div class="sidebar-menu-list">
+            <a href="index.html" class="sidebar-nav-link ">
+                <i class="fas fa-home" style="color:#60a5fa;"></i> <span class="sidebar-text" data-i18n="menu_home">Bosh Sahifa</span>
+            </a>
+            <a href="davomat.html" class="sidebar-nav-link ">
+                <i class="fas fa-edit" style="color:#38bdf8;"></i> <span class="sidebar-text" data-i18n="menu_davomat">Davomat Kiritish</span>
+            </a>
+            <a href="xorij.html" class="sidebar-nav-link ">
+                <i class="fas fa-globe" style="color:#06b6d4;"></i> <span class="sidebar-text" data-i18n="menu_xorij">Xorij Nazorati</span>
+            </a>
+            <a href="inspektor.html" class="sidebar-nav-link ">
+                <i class="fas fa-user-shield" style="color:#f59e0b;"></i> <span class="sidebar-text" data-i18n="menu_inspektor">Inspektor Nazorati</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-nav-link ">
+                <i class="fas fa-chart-pie" style="color:#a855f7;"></i> <span class="sidebar-text" data-i18n="menu_dashboard">Dashboard</span>
+            </a>
+            
+            <div class="sidebar-sub-menu" id="dashSubMenu" style="display: none;">
+                <button class="sidebar-sub-item active" onclick="showTab('viloyat')" id="tab_viloyat"><i class="fas fa-city" style="color:#38bdf8;"></i> <span data-i18n="menu_viloyat_svod">Viloyat Svod</span></button>
+                <button class="sidebar-sub-item" onclick="location.href='xarita.html'" id="tab_xarita"><i class="fas fa-map-location-dot" style="color:#10b981;"></i> <span data-i18n="menu_map">Xarita (SVG)</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('tuman')" id="tab_tuman"><i class="fas fa-school" style="color:#a855f7;"></i> <span data-i18n="menu_tuman_svod">Tuman Svod</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('students')" id="tab_students"><i class="fas fa-users" style="color:#ef4444;"></i> <span data-i18n="menu_students">Sababsizlar</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('recent')" id="tab_recent"><i class="fas fa-bolt" style="color:#f59e0b;"></i> <span data-i18n="menu_live">Jonli Monitor</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('analysis')" id="tab_analysis"><i class="fas fa-chart-line" style="color:#8b5cf6;"></i> <span data-i18n="menu_analysis">Tahlil & Grafika</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('parents')" id="tab_parents"><i class="fas fa-user-friends" style="color:#ec4899;"></i> <span data-i18n="menu_parents">Ota-onalar Nazorati</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('ranking')" id="tab_ranking"><i class="fas fa-trophy" style="color:#f59e0b;"></i> <span data-i18n="menu_ranking">MMIBDO‘ Reyting</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('profile')" id="tab_profile"><i class="fas fa-user-cog" style="color:#94a3b8;"></i> <span data-i18n="menu_profile">Profil</span></button>
+            </div>
+        </div>
+
+        <div class="sidebar-section-title" data-i18n="menu_system_section">Boshqaruv & Tizim</div>
+        <div class="sidebar-menu-list">
+            <a href="admin.html" class="sidebar-nav-link ">
+                <i class="fas fa-sliders" style="color:#ec4899;"></i> <span class="sidebar-text" data-i18n="menu_admin">Admin Panel</span>
+            </a>
+            <a href="oferta.html" class="sidebar-nav-link active">
+                <i class="fas fa-file-signature" style="color:#facc15;"></i> <span class="sidebar-text" data-i18n="menu_oferta">Ommaviy Oferta</span>
+            </a>
+            <a href="about.html?tab=hujjatlar" class="sidebar-nav-link">
+                <i class="fas fa-file-contract" style="color:#c084fc;"></i> <span class="sidebar-text" data-i18n="menu_docs">Me'yoriy Hujjatlar</span>
+            </a>
+            <a href="about.html" class="sidebar-nav-link ">
+                <i class="fas fa-info-circle" style="color:#94a3b8;"></i> <span class="sidebar-text" data-i18n="menu_about">Biz Haqimizda</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 3. MOBILE BOTTOM NAVIGATION -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-bottom-item "><i class="fas fa-home"></i><span>Asosiy</span></a>
+        <a href="davomat.html" class="mobile-bottom-item "><i class="fas fa-edit"></i><span>Davomat</span></a>
+        <a href="dashboard.html" class="mobile-bottom-item "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="inspektor.html" class="mobile-bottom-item "><i class="fas fa-user-shield"></i><span>Inspektor</span></a>
+        <a href="javascript:void(0)" onclick="toggleSidebar()" class="mobile-bottom-item"><i class="fas fa-bars"></i><span>Menyu</span></a>
+    </nav>
+    
+    <!-- ASOSIY KONTENT MAYDONI (MAIN VIEWPORT) -->
+    <main class="main-content-wrapper app-main-viewport">
+<div class="oferta-container">
+        <div class="oferta-header">
+            <span class="oferta-badge"><i class="fas fa-shield-alt"></i> Huquqiy hujjat</span>
+            <h1>OMMAVIY OFERTA VA FOYDALANISH KELISHUVI</h1>
+            <p>O'zbekiston Respublikasi Fuqarolik kodeksining 369 va 370-moddalariga muvofiq rasmiy ommaviy oferta</p>
+        </div>
+
+        <div class="oferta-section">
+            <h3><i class="fas fa-file-contract"></i> 1. Umumiy qoidalar va Aksept</h3>
+            <p>1.1. Mazkur hujjat «Ferghanaregdavomat» avtomatlashtirilgan axborot tizimi (bundan buyon matnda — «Platforma») va foydalanuvchilar (bundan buyon matnda — «Foydalanuvchi») o'rtasida tuzilgan rasmiy ommaviy oferta (shartnoma) hisoblanadi.</p>
+            <p>1.2. Foydalanuvchi tomonidan Telegram botda yoki Veb-saytda <b>«Tanishdim va roziman»</b> tugmasining bosilishi, shuningdek tizimdan amalda foydalanish mazkur Ofertani hech qanday shartlarsiz va istisnolarsiz to'liq qabul qilish (aksept) hisoblanadi.</p>
+        </div>
+
+        <div class="oferta-section">
+            <h3><i class="fas fa-info-circle"></i> 2. Xizmat mohiyati va Tizimning maqomi</h3>
+            <p>2.1. Platforma ta'lim tashkilotlarida kundalik davomat hisobini yuritish, nazorat qilish, statistik tahlillar va avtomatlashtirilgan hisobotlarni (PDF/Excel) tuzishga mo'ljallangan mustaqil avtomatlashtirilgan dasturiy ta'minot (SaaS) hisoblanadi.</p>
+            <p>2.2. Platforma davlat ta'lim organlarining rasmiy davlat tizimi o'rnini bosmaydi, balki mas'ul xodimlar uchun tahliliy va texnik qulaylik yaratuvchi mustaqil dasturiy yordamchi vosita hisoblanadi.</p>
+        </div>
+
+        <div class="oferta-section">
+            <h3><i class="fas fa-credit-card"></i> 3. To'lovlar, Oylik obuna va Ixtiyoriylik</h3>
+            <p>3.1. Dasturiy ta'minotning server bulutli resurslari, sun'iy intellekt (AI) modullari, ma'lumotlar xavfsizligi va uzluksiz texnik xizmat ko'rsatilishini ta'minlash uchun tizimda oylik ixtiyoriy dasturiy litsenziya to'lovi belgilanadi.</p>
+            <p>3.2. Mazkur to'lov majburiy davlat boji, soliq yoki ma'muriy yig'im hisoblanmaydi. Foydalanuvchi tizimning qo'shimcha imkoniyatlari va avtomatlashtirilgan xizmatlaridan foydalanish maqsadida ushbu to'lovni o'z ixtiyori bilan amalga oshiradi.</p>
+            <p>3.3. Foydalanuvchi to'lov kvitansiyasini (chek) yuborishi va u ma'murlar tomonidan tasdiqlanishi bilan Foydalanuvchiga tegishli muddatga (1 oy) foydalanish huquqi beriladi.</p>
+        </div>
+
+        <div class="oferta-section">
+            <h3><i class="fas fa-user-check"></i> 4. Tomonlarning huquq va majburiyatlari</h3>
+            <p>4.1. Foydalanuvchi tizimga kiritayotgan har bir o'quvchi ma'lumoti, dars qoldirish sabablari va raqamlarning haqqoniyligi uchun bevosita shaxsiy javobgarlikni o'z zimmasiga oladi.</p>
+            <p>4.2. Platforma ma'muriyati dasturiy ta'minotning barqaror ishlashini ta'minlash choralarini ko'radi. Biroq telekommunikatsiya provayderlari, global internet tarmoqlari yoki uchinchi tomon dasturlari (masalan, Telegram API)dagi texnik uzilishlar uchun moddiy javobgarlikni o'z zimmasiga olmaydi.</p>
+            <p>4.3. Foydalanuvchilarning kiritgan ma'lumotlari maxfiylik tamoyillari asosida saqlanadi va uchinchi shaxslarga berilmaydi.</p>
+        </div>
+
+        <div class="oferta-section">
+            <h3><i class="fas fa-handshake"></i> 5. Nizolarni hal etish</h3>
+            <p>5.1. Mazkur kelishuv bo'yicha yuzaga keladigan barcha masalalar va tushunmovchiliklar o'zaro muzokaralar va do'stona muloqot yo'li bilan hal etiladi.</p>
+            <p>5.2. Qo'shimcha savollar va takliflar uchun tizim administratorlariga murojaat qilish mumkin.</p>
+        </div>
+
+        <div class="oferta-section" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 24px;">
+            <h3><i class="fas fa-certificate"></i> 6. Ijrochi va Qonuniy asos</h3>
+            <p>6.1. Ushbu platforma xizmatlari O'zbekiston Respublikasi Davlat soliq xizmati organlari tomonidan berilgan <b>QR-kodli Ma'lumotnoma № 0006296129</b> (Faoliyat turi: «Dasturiy ta'minot ishlab chiqish») asosida o'zini o'zi band qilgan shaxs tomonidan qonuniy ravishda ko'rsatiladi.</p>
+        </div>
+    </div>
+
+        
+
+        <!-- 5. IXCHAM COMPACT FOOTER -->
+        
+    
+    </main>
+    
+    <script src="script.js?v=4"></script>
+
+    <!-- 3. SMOOTH SCROLLING MARQUEE TICKER (AYLANUVCHI SARIQ LENTALI TEST REJIM) -->
+    <div class="app-system-test-banner" id="testModeBanner">
+        <div class="test-banner-marquee-track">
+            <div class="test-banner-marquee-content">
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+            </div>
+        </div>
+        <button onclick="document.getElementById('testModeBanner').style.display='none'" class="banner-close-btn" title="Yopish">&times;</button>
+    </div>
+
+    <!-- 4. KENGAYTIRILGAN TO'LIQ FOOTER (MANZIL, TELEFON, UZINFOCOM VA BETWEEN US HAMKOR) -->
+    <footer class="app-sticky-footer" id="appStickyFooter">
+        <div class="footer-col-left">
+            <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="footer-org-logo">
+            <div class="footer-org-details">
+                <div class="footer-org-title">Ferghanaregdavomat &bull; Farg'ona VMMTB</div>
+                <div class="footer-org-sub">
+                    <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> Farg'ona sh., Dodxox ko'chasi, 2-uy &bull; 
+                    <i class="fas fa-phone-alt" style="color:#38bdf8;"></i> +998 91 328 44 00</div>
+            </div>
+        </div>
+
+        <div class="footer-col-center">
+            <div class="footer-uzinfocom-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span data-i18n="footer_uzinfocom">UZINFOCOM tomonidan nazoratdan o‘tgan</span>
+            </div>
+            <span class="footer-copy" data-i18n="footer_copy">&copy; 2026 Farg'ona VMMTB. Barcha huquqlar himoyalangan.</span>
+        </div>
+
+        <div class="footer-col-right">
+            <span class="footer-partner-label" data-i18n="footer_partner">Rasmiy hamkor:</span>
+            <a href="https://t.me/between_us_team" target="_blank" class="footer-partner-box" title="Between Us rasmiy telegram kanali">
+                <img src="assets/partners/between_us_1.png" onerror="this.src='../assets/partners/between_us_1.png'" alt="Between Us" class="footer-partner-logo">
+                <span class="footer-partner-name">Between Us Team</span>
+            </a>
+        </div>
+    </footer>
+    <script src="script.js?v=4"></script>
+    <script src="promo-widget.js"></script>
+</body>
+
+</html>

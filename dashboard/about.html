@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <script>(function(){if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light-mode');}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biz haqimizda - Farg'ona VMMTB</title>
+    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #fbbf24;
+            --accent: rgba(251, 191, 36, 0.1);
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--primary);
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary);
+            padding: 3px;
+            background: white;
+        }
+
+        .profile-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-post {
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        .profile-info {
+            text-align: left;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 0.8rem;
+        }
+
+        .profile-info p {
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-info i {
+            color: var(--primary);
+            width: 14px;
+        }
+
+        .section-title h2 {
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="page-about">
+
+    <!-- 1. FULL-WIDTH TOP NAVBAR (FULL SCREEN WIDTH) -->
+        <!-- 1. TOP HEADER (68px) -->
+        <!-- 1. TOP HEADER (68px, NO 3-LINES HAMBURGER) -->
+    <header class="app-top-header" id="appTopHeader">
+        <div class="top-header-left">
+            <a href="index.html" class="header-brand">
+                <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="header-logo">
+                <div class="header-brand-info">
+                    <span class="header-brand-title">DAVOMAT</span>
+                    <span class="header-brand-sub">Farg'ona VMMTB</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="top-header-center">
+            <div class="header-widget weather" id="weatherWidget"><i class="fas fa-cloud-sun"></i> <span>...</span></div>
+            <div class="header-widget clock"><i class="fas fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+            <div class="header-widget countdown"><i class="fas fa-hourglass-half"></i> <span id="submissionTimer">00:00:00</span></div>
+        </div>
+
+        <div class="top-header-right">
+            <!-- 3 Languages Switcher: O‘zb (Lotin), Ўзб (Кирилл), Рус (Русский) -->
+            <div class="lang-switcher">
+                <button onclick="changeLang('uz')" class="lang-btn" id="uz_btn" title="O'zbekcha (Lotin)">O‘zb</button>
+                <button onclick="changeLang('oz')" class="lang-btn" id="oz_btn" title="Ўзбекча (Кирилл)">Ўзб</button>
+                <button onclick="changeLang('ru')" class="lang-btn" id="ru_btn" title="Русский">Рус</button>
+            </div>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" title="Mavzu (Dark/Light)" style="background:rgba(255,255,255,0.08); border:none; color:#fff; width:38px; height:38px; border-radius:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="topHeaderAuthContainer">
+                <a href="login.html" class="top-header-login-btn" id="topHeaderLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> <span data-i18n="nav_login">Kirish</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE BACKDROP -->
+    <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop" onclick="toggleSidebar()"></div>
+    
+
+    <!-- 2. SUB-HEADER LEFT SLIDEBAR (STARTS BELOW TOP HEADER) -->
+        <!-- 2. SLIDEBAR / SIDEBAR -->
+        <!-- FLOATING DOCK TOGGLE BUTTON (DOIMIY TURUVCHI SLIDEBAR TUGMASI) -->
+    <button class="sidebar-floating-toggle-btn" id="sidebarFloatingBtn" onclick="toggleSidebar()" title="Menyuni ochish/yopish">
+        <i class="fas fa-bars" id="sidebarFloatingIcon"></i>
+    </button>
+
+    <!-- 2. SLIDEBAR / SIDEBAR (NAVBARGA YOPISHMAGAN, AJRALIB TURUVCHI DOCK) -->
+    <aside class="sidebar-slidebar" id="appSidebar">
+        <!-- Slidebar Right Edge Collapse Button -->
+        <button class="sidebar-edge-toggle-btn" id="sidebarEdgeToggleBtn" onclick="toggleSidebar()" title="Menyuni berkitish">
+            <i class="fas fa-chevron-left" id="sidebarEdgeIcon"></i>
+        </button>
+        <!-- O'ZBEK MILLIY ISLIMIY NAQSH MEDALYONI -->
+                <!-- VMMTB RASMIY LOGO VA BOSHQARMA NOMI -->
+        <div class="sidebar-vmmtb-branding">
+            <img src="assets/vmmtb_logo.png" onerror="this.src='../assets/vmmtb_logo.png'" alt="VMMTB" class="sidebar-vmmtb-logo">
+            <div class="sidebar-vmmtb-title" data-i18n="sidebar_org_title">
+                Farg‘ona viloyati maktabgacha va maktab ta'limi boshqarmasi
+            </div>
+        </div>
+
+
+
+        <div class="sidebar-section-title" data-i18n="menu_main_section">Asosiy Bo'limlar</div>
+        <div class="sidebar-menu-list">
+            <a href="index.html" class="sidebar-nav-link ">
+                <i class="fas fa-home" style="color:#60a5fa;"></i> <span class="sidebar-text" data-i18n="menu_home">Bosh Sahifa</span>
+            </a>
+            <a href="davomat.html" class="sidebar-nav-link ">
+                <i class="fas fa-edit" style="color:#38bdf8;"></i> <span class="sidebar-text" data-i18n="menu_davomat">Davomat Kiritish</span>
+            </a>
+            <a href="xorij.html" class="sidebar-nav-link ">
+                <i class="fas fa-globe" style="color:#06b6d4;"></i> <span class="sidebar-text" data-i18n="menu_xorij">Xorij Nazorati</span>
+            </a>
+            <a href="inspektor.html" class="sidebar-nav-link ">
+                <i class="fas fa-user-shield" style="color:#f59e0b;"></i> <span class="sidebar-text" data-i18n="menu_inspektor">Inspektor Nazorati</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-nav-link ">
+                <i class="fas fa-chart-pie" style="color:#a855f7;"></i> <span class="sidebar-text" data-i18n="menu_dashboard">Dashboard</span>
+            </a>
+            
+            <div class="sidebar-sub-menu" id="dashSubMenu" style="display: none;">
+                <button class="sidebar-sub-item active" onclick="showTab('viloyat')" id="tab_viloyat"><i class="fas fa-city" style="color:#38bdf8;"></i> <span data-i18n="menu_viloyat_svod">Viloyat Svod</span></button>
+                <button class="sidebar-sub-item" onclick="location.href='xarita.html'" id="tab_xarita"><i class="fas fa-map-location-dot" style="color:#10b981;"></i> <span data-i18n="menu_map">Xarita (SVG)</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('tuman')" id="tab_tuman"><i class="fas fa-school" style="color:#a855f7;"></i> <span data-i18n="menu_tuman_svod">Tuman Svod</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('students')" id="tab_students"><i class="fas fa-users" style="color:#ef4444;"></i> <span data-i18n="menu_students">Sababsizlar</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('recent')" id="tab_recent"><i class="fas fa-bolt" style="color:#f59e0b;"></i> <span data-i18n="menu_live">Jonli Monitor</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('analysis')" id="tab_analysis"><i class="fas fa-chart-line" style="color:#8b5cf6;"></i> <span data-i18n="menu_analysis">Tahlil & Grafika</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('parents')" id="tab_parents"><i class="fas fa-user-friends" style="color:#ec4899;"></i> <span data-i18n="menu_parents">Ota-onalar Nazorati</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('ranking')" id="tab_ranking"><i class="fas fa-trophy" style="color:#f59e0b;"></i> <span data-i18n="menu_ranking">MMIBDO‘ Reyting</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('profile')" id="tab_profile"><i class="fas fa-user-cog" style="color:#94a3b8;"></i> <span data-i18n="menu_profile">Profil</span></button>
+            </div>
+        </div>
+
+        <div class="sidebar-section-title" data-i18n="menu_system_section">Boshqaruv & Tizim</div>
+        <div class="sidebar-menu-list">
+            <a href="admin.html" class="sidebar-nav-link ">
+                <i class="fas fa-sliders" style="color:#ec4899;"></i> <span class="sidebar-text" data-i18n="menu_admin">Admin Panel</span>
+            </a>
+            <a href="oferta.html" class="sidebar-nav-link ">
+                <i class="fas fa-file-signature" style="color:#facc15;"></i> <span class="sidebar-text" data-i18n="menu_oferta">Ommaviy Oferta</span>
+            </a>
+            <a href="about.html?tab=hujjatlar" class="sidebar-nav-link">
+                <i class="fas fa-file-contract" style="color:#c084fc;"></i> <span class="sidebar-text" data-i18n="menu_docs">Me'yoriy Hujjatlar</span>
+            </a>
+            <a href="about.html" class="sidebar-nav-link active">
+                <i class="fas fa-info-circle" style="color:#94a3b8;"></i> <span class="sidebar-text" data-i18n="menu_about">Biz Haqimizda</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 3. MOBILE BOTTOM NAVIGATION -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-bottom-item "><i class="fas fa-home"></i><span>Asosiy</span></a>
+        <a href="davomat.html" class="mobile-bottom-item "><i class="fas fa-edit"></i><span>Davomat</span></a>
+        <a href="dashboard.html" class="mobile-bottom-item "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="inspektor.html" class="mobile-bottom-item "><i class="fas fa-user-shield"></i><span>Inspektor</span></a>
+        <a href="javascript:void(0)" onclick="toggleSidebar()" class="mobile-bottom-item"><i class="fas fa-bars"></i><span>Menyu</span></a>
+    </nav>
+    
+    <!-- ASOSIY KONTENT MAYDONI (MAIN VIEWPORT) -->
+    <main class="main-content-wrapper app-main-viewport">
+<div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container" style="max-width: 1200px; padding-bottom: 80px;">
+        <div class="section-title" style="text-align: left; margin-top: 3rem;">
+            <h2
+                style="font-size: 2.2rem; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                Biz haqimizda</h2>
+            <p data-i18n="hero_subtitle" style="opacity: 0.7; margin-top: 10px;">Boshqarma va tuman (shahar) mas'ul
+                xodimlari</p>
+        </div>
+
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('boshqarma')">Viloyat Boshqarmasi</button>
+            <button class="tab-btn" onclick="switchTab('tuman')">Tuman va Shaharlar</button>
+        
+            <button class="tab-btn" onclick="switchTab('hujjatlar')"><i class="fas fa-file-contract"></i> Me'yoriy Hujjatlar</button></div>
+
+        <!-- Boshqarma Section -->
+        <div id="boshqarma" class="tab-content active">
+            <div class="about-grid">
+                <!-- Kasimova Dilafruz -->
+                <div class="profile-card">
+                    <img src="https://ui-avatars.com/api/?name=Kasimova+Dilafruz&background=6366f1&color=fff"
+                        class="profile-img">
+                    <div class="profile-name">Kasimova Dilafruz Shavkatovna</div>
+                    <div class="profile-post">Boshqarma boshlig‘i o‘rinbosari</div>
+                    <div class="profile-info">
+                        <p><i class="fas fa-phone"></i> (73) 244-XX-XX</p>
+                        <p><i class="fas fa-clock"></i> <span data-i18n="work_time_mgmt">09:00 - 18:00</span> (<span
+                                data-i18n="work_lunch">Tushlik</span>: 13:00-14:00)</p>
+                        <div class="work-tag"><span data-i18n="work_days">Ish kunlari: Dush-Jum</span></div>
+                        <div class="work-tag" style="background:rgba(244,63,94,0.1); color:#f43f5e;"><span
+                                data-i18n="work_weekend">Shan-Yak: Dam olish</span></div>
+                    </div>
+                </div>
+
+                <!-- Turdiyev Rustamjon -->
+                <div class="profile-card">
+                    <img src="https://ui-avatars.com/api/?name=Turdiyev+Rustamjon&background=8b5cf6&color=fff"
+                        class="profile-img">
+                    <div class="profile-name">Turdiyev Rustamjon Raushanovich</div>
+                    <div class="profile-post">Sho‘ba rahbari</div>
+                    <div class="profile-info">
+                        <p><i class="fas fa-phone"></i> +998 88 595 23 23</p>
+                        <p><i class="fas fa-clock"></i> <span data-i18n="work_time_mgmt">09:00 - 18:00</span></p>
+                        <p><i class="fas fa-utensils"></i> <span data-i18n="work_lunch_mgmt">13:00 - 14:00</span></p>
+                        <p><i class="fas fa-calendar-times"></i> <span data-i18n="work_weekend">Shanba, Yakshanba - Dam
+                                olish</span></p>
+                    </div>
+                </div>
+
+                <!-- Azimov Abrorjon -->
+                <div class="profile-card">
+                    <img src="https://ui-avatars.com/api/?name=Azimov+Abrorjon&background=3b82f6&color=fff"
+                        class="profile-img">
+                    <div class="profile-name">Azimov Abrorjon Maxsutaliyevich</div>
+                    <div class="profile-post">Sho‘ba metodisti</div>
+                    <div class="profile-info">
+                        <p><i class="fas fa-phone"></i> +998 91 328 44 00</p>
+                        <p><i class="fas fa-clock"></i> <span data-i18n="work_time_mgmt">09:00 - 18:00</span> (<span
+                                data-i18n="work_lunch">Tushlik</span>: 13:00-14:00)</p>
+                        <div class="work-tag"><span data-i18n="work_days">Ish kunlari: Dush-Jum</span></div>
+                        <div class="work-tag" style="background:rgba(244,63,94,0.1); color:#f43f5e;"><span
+                                data-i18n="work_weekend">Shan-Yak: Dam olish</span></div>
+                    </div>
+                </div>
+
+                <!-- Azamov Dilshodjon -->
+                <div class="profile-card">
+                    <img src="https://ui-avatars.com/api/?name=Azamov+Dilshodjon&background=10b981&color=fff"
+                        class="profile-img">
+                    <div class="profile-name">A'zamov Dilshodjon Muxtorovich</div>
+                    <div class="profile-post">Sho‘ba metodisti</div>
+                    <div class="profile-info">
+                        <p><i class="fas fa-phone"></i> +998 91 652 34 84</p>
+                        <p><i class="fas fa-clock"></i> <span data-i18n="work_time_mgmt">09:00 - 18:00</span> (<span
+                                data-i18n="work_lunch">Tushlik</span>: 13:00-14:00)</p>
+                        <div class="work-tag"><span data-i18n="work_days">Ish kunlari: Dush-Jum</span></div>
+                        <div class="work-tag" style="background:rgba(244,63,94,0.1); color:#f43f5e;"><span
+                                data-i18n="work_weekend">Shan-Yak: Dam olish</span></div>
+                    </div>
+                </div>
+
+                <!-- Mirzajonov Mashxurbek -->
+                <div class="profile-card">
+                    <img src="https://ui-avatars.com/api/?name=Mirzajonov+Mashxurbek&background=f97316&color=fff"
+                        class="profile-img">
+                    <div class="profile-name">Mirzajonov Mashxurbek Adixamjon o‘g‘li</div>
+                    <div class="profile-post">Yordamchi</div>
+                    <div class="profile-info">
+                        <p><i class="fas fa-phone"></i> +998 91 654 44 33</p>
+                        <p><i class="fas fa-clock"></i> <span data-i18n="work_time_mgmt">09:00 - 18:00</span> (<span
+                                data-i18n="work_lunch">Tushlik</span>: 13:00-14:00)</p>
+                        <div class="work-tag"><span data-i18n="work_days">Ish kunlari: Dush-Jum</span></div>
+                        <div class="work-tag" style="background:rgba(244,63,94,0.1); color:#f43f5e;"><span
+                                data-i18n="work_weekend">Shan-Yak: Dam olish</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Hujjatlar Section -->
+        <div id="hujjatlar" class="tab-content">
+            <div class="about-grid" id="hujjatlarGrid">
+                <!-- Data will be loaded via JS -->
+                <div style="text-align:center; grid-column:1/-1; padding:40px; color:#94a3b8;"><i class="fas fa-spinner fa-spin"></i> Hujjatlar yuklanmoqda...</div>
+            </div>
+        </div>
+
+        <!-- Tumanlar Section -->
+        <div id="tuman" class="tab-content">
+            <div class="about-grid" id="tumanGrid">
+                <!-- Will be populated via JS -->
+            </div>
+        </div>
+    </div>
+
+    <section class="app-download-section">
+        <div class="app-download-content">
+            <h2 data-i18n="app_download_title">Mobil ilovani yuklab oling</h2>
+            <p data-i18n="app_download_subtitle">Davomat tizimidan yanada qulay foydalanish uchun rasmiy mobil ilovani
+                o'rnatib oling.</p>
+            <div class="app-store-btns">
+                <a href="#" class="store-btn install-trigger" onclick="installApp()">
+                    <i class="fab fa-google-play"></i>
+                    <div>
+                        <small>Get it on</small>
+                        <strong data-i18n="btn_google_play">Google Play</strong>
+                    </div>
+                </a>
+                <a href="#" class="store-btn install-trigger" onclick="installApp()">
+                    <i class="fab fa-apple"></i>
+                    <div>
+                        <small>Download on the</small>
+                        <strong data-i18n="btn_app_store">App Store</strong>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <script>
+        const tumanData = [
+            { city: "Marg‘ilon shahar", name: "Kodirov Abdullajon XXX", phone: "907608766" },
+            { city: "Farg‘ona shahar", name: "Teshaboev Boburjon Bahodir o‘g‘li", phone: "911074419" },
+            { city: "Quvasoy shahar", name: "Qurbonov Ulug‘bek Jumaevich", phone: "933738101" },
+            { city: "Qo‘qon shahar", name: "Alieva Laziza Xusanovna", phone: "991552363" },
+            { city: "Bag‘dod tumani", name: "Isaboeva Elmira Erkinovna", phone: "+998916910074" },
+            { city: "Beshariq tumani", name: "Po‘latov Dilshodjon Qahholrovich", phone: "936400503" },
+            { city: "Buvayda tumani", name: "Axmadjonov Aliyorbek Azizbekovich", phone: "944440405" },
+            { city: "Dang‘ara tumani", name: "Miraminov Abdulaziz G‘ayratjon o‘g‘li", phone: "946081708" },
+            { city: "Yozyovon tumani", name: "Usmonov Shoxrux Rustamjonovich", phone: "911127495" },
+            { city: "Oltiariq tumani", name: "Shodiyev Oybek Tolibjonovich", phone: "+998912841171" },
+            { city: "Qo‘shtepa tumani", name: "Ergasheva Mamlakatxon Muxtorovna", phone: "905800732" },
+            { city: "Rishton tumani", name: "Raximov Abdumutal Abduxalim o‘g‘li", phone: "908386274" },
+            { city: "So‘x tumani", name: "Ibragimov Gulshan Ravshanjonovich", phone: "959929000" },
+            { city: "Toshloq tumani", name: "Sultonov Ramziddin", phone: "+998907823238" },
+            { city: "Uchko‘prik tumani", name: "Yunusova Marg‘uba Akramovna", phone: "911559402" },
+            { city: "Farg‘ona tumani", name: "Raximova Mahliyoxon Xolmuxammadovna", phone: "901798484" },
+            { city: "Furqat tumani", name: "Mirzaev Mirzaxamdamjon Valievich", phone: "995100079" },
+            { city: "O‘zbekiston tumani", name: "Ochildieva Gulmiraxon Ne’matillaevna", phone: "911470801" },
+            { city: "Quva tumani", name: "Xolikov Jaxongir Ne’matjonovich", phone: "911101011" }
+        ];
+
+        const cityTranslations = {
+            "Marg‘ilon shahar": { oz: "Марғилон шаҳар", ru: "город Маргилан" },
+            "Farg‘ona shahar": { oz: "Фарғона шаҳар", ru: "город Фергана" },
+            "Quvasoy shahar": { oz: "Қувасой шаҳар", ru: "город Кувасай" },
+            "Qo‘qon shahar": { oz: "Қўқон шаҳар", ru: "город Коканд" },
+            "Bag‘dod tumani": { oz: "Бағдод тумани", ru: "Багдадский район" },
+            "Beshariq tumani": { oz: "Бешариқ тумани", ru: "Бешарыкский район" },
+            "Buvayda tumani": { oz: "Бувайда тумани", ru: "Бувайдинский район" },
+            "Dang‘ara tumani": { oz: "Данғара тумани", ru: "Дангаринский район" },
+            "Yozyovon tumani": { oz: "Ёзёвон тумани", ru: "Язъяванский район" },
+            "Oltiariq tumani": { oz: "Олтиариқ тумани", ru: "Алтыарыкский район" },
+            "Qo‘shtepa tumani": { oz: "Қўштепа тумани", ru: "Куштепинский район" },
+            "Rishton tumani": { oz: "Риштон тумани", ru: "Риштанский район" },
+            "So‘x tumani": { oz: "Сўх тумани", ru: "Сохский район" },
+            "Toshloq tumani": { oz: "Тошлоқ тумани", ru: "Ташлакский район" },
+            "Uchko‘prik tumani": { oz: "Учкўприк тумани", ru: "Учкуприкский район" },
+            "Farg‘ona tumani": { oz: "Фарғона тумани", ru: "Ферганский район" },
+            "Furqat tumani": { oz: "Фурқат тумани", ru: "Фуркатский район" },
+            "O‘zbekiston tumani": { oz: "Ўзбекистон тумани", ru: "Узбекистанский район" },
+            "Quva tumani": { oz: "Қува тумани", ru: "Кувинский район" }
+        };
+
+        const postTranslations = {
+            uz: "Sho‘ba bosh mutaxassisi",
+            oz: "Шўъба бош мутахассиси",
+            ru: "Главный специалист отдела"
+        };
+
+        window.onload = function () {
+            switchTab('boshqarma');
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+
+            const btns = document.querySelectorAll('.tab-btn');
+            if (tabId === 'boshqarma') btns[0].classList.add('active');
+            else if (tabId === 'tuman') btns[1].classList.add('active');
+            else if (tabId === 'hujjatlar') btns[2].classList.add('active');
+            
+            if (tabId === 'hujjatlar') {
+                loadHujjatlar();
+            }
+
+            if (tabId === 'tuman') {
+                renderTumanCards();
+            }
+        }
+
+        function renderTumanCards() {
+            const lang = localStorage.getItem('lang') || 'uz';
+            const grid = document.getElementById('tumanGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            const postTitle = postTranslations[lang] || postTranslations.uz;
+
+            tumanData.forEach(item => {
+                const transCity = (lang !== 'uz' && cityTranslations[item.city] && cityTranslations[item.city][lang]) ? cityTranslations[item.city][lang] : item.city;
+                const card = `
+                    <div class="profile-card">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=random&color=fff" class="profile-img">
+                        <div class="profile-name">${item.name}</div>
+                        <div class="profile-post">${postTitle} (${transCity})</div>
+                        <div class="profile-info">
+                            <p><i class="fas fa-phone"></i> +998 ${item.phone.replace(/\D/g, '').slice(-9)}</p>
+                            <p><i class="fas fa-clock"></i> <span data-i18n="work_time_dist">08:00 - 17:00</span> (<span data-i18n="work_lunch">Tushlik</span>: 12:00-13:00)</p>
+                            <div class="work-tag"><span data-i18n="work_days">Ish kunlari: Dush-Jum</span></div>
+                            <div class="work-tag" style="background:rgba(244,63,94,0.1); color:#f43f5e;"><span data-i18n="work_weekend">Shan-Yak: Dam olish</span></div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', card);
+            });
+            if (typeof applyTranslations === 'function') {
+                applyTranslations(lang);
+            }
+        }
+
+        window.addEventListener('languageChanged', (e) => {
+            const grid = document.getElementById('tumanGrid');
+            if (grid && (document.getElementById('tuman').classList.contains('active') || grid.children.length > 0)) {
+                renderTumanCards();
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+    <script>
+        async function loadHujjatlar() {
+            const grid = document.getElementById('hujjatlarGrid');
+            try {
+                const res = await fetch('/api/documents');
+                const docs = await res.json();
+                
+                if(!docs || docs.length === 0) {
+                    grid.innerHTML = '<div style="text-align:center; grid-column:1/-1; color:#94a3b8; padding:20px;">Hujjatlar mavjud emas.</div>';
+                    return;
+                }
+                
+                let html = '';
+                docs.forEach(doc => {
+                    const docLink = doc.filename ? `<a href="/uploads/${doc.filename}" target="_blank" style="display:inline-block; margin-top:15px; padding:10px 20px; background:#10b981; color:white; border-radius:8px; text-decoration:none;"><i class="fas fa-download"></i> Yuklab olish</a>` : '';
+                    html += `
+                    <div class="profile-card" style="text-align:left;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <h3 style="color:var(--primary); margin-bottom:10px; font-size:1.1rem;"><i class="fas fa-file-alt"></i> ${doc.title}</h3>
+                        </div>
+                        <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:10px;"><i class="fas fa-calendar-alt"></i> ${doc.date}</div>
+                        ${docLink}
+                    </div>`;
+                });
+                grid.innerHTML = html;
+            } catch(e) {
+                grid.innerHTML = '<div style="color:red; text-align:center; grid-column:1/-1;">Xatolik yuz berdi.</div>';
+            }
+        }
+    </script>
+    <!-- Between Us Promo Widget -->
+    
+    <script>
+        (function() {
+            if (typeof updateTopHeaderAuth === 'function') {
+                updateTopHeaderAuth();
+            }
+        })();
+    </script>
+
+        
+
+        <!-- 5. IXCHAM COMPACT FOOTER -->
+        
+    
+    </main>
+    
+    
+    <!-- 3. SMOOTH SCROLLING MARQUEE TICKER (AYLANUVCHI SARIQ LENTALI TEST REJIM) -->
+    <div class="app-system-test-banner" id="testModeBanner">
+        <div class="test-banner-marquee-track">
+            <div class="test-banner-marquee-content">
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+            </div>
+        </div>
+        <button onclick="document.getElementById('testModeBanner').style.display='none'" class="banner-close-btn" title="Yopish">&times;</button>
+    </div>
+
+    <!-- 4. KENGAYTIRILGAN TO'LIQ FOOTER (MANZIL, TELEFON, UZINFOCOM VA BETWEEN US HAMKOR) -->
+    <footer class="app-sticky-footer" id="appStickyFooter">
+        <div class="footer-col-left">
+            <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="footer-org-logo">
+            <div class="footer-org-details">
+                <div class="footer-org-title">Ferghanaregdavomat &bull; Farg'ona VMMTB</div>
+                <div class="footer-org-sub">
+                    <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> Farg'ona sh., Dodxox ko'chasi, 2-uy &bull; 
+                    <i class="fas fa-phone-alt" style="color:#38bdf8;"></i> +998 91 328 44 00</div>
+            </div>
+        </div>
+
+        <div class="footer-col-center">
+            <div class="footer-uzinfocom-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span data-i18n="footer_uzinfocom">UZINFOCOM tomonidan nazoratdan o‘tgan</span>
+            </div>
+            <span class="footer-copy" data-i18n="footer_copy">&copy; 2026 Farg'ona VMMTB. Barcha huquqlar himoyalangan.</span>
+        </div>
+
+        <div class="footer-col-right">
+            <span class="footer-partner-label" data-i18n="footer_partner">Rasmiy hamkor:</span>
+            <a href="https://t.me/between_us_team" target="_blank" class="footer-partner-box" title="Between Us rasmiy telegram kanali">
+                <img src="assets/partners/between_us_1.png" onerror="this.src='../assets/partners/between_us_1.png'" alt="Between Us" class="footer-partner-logo">
+                <span class="footer-partner-name">Between Us Team</span>
+            </a>
+        </div>
+    </footer>
+    <script src="script.js?v=4"></script>
+    <script src="promo-widget.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+

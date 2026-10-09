@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>(function(){if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light-mode');}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Davomat Form - Farg‘ona VMMTB</title>
+    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="page-davomat">
+
+    <!-- 1. FULL-WIDTH TOP NAVBAR (FULL SCREEN WIDTH) -->
+        <!-- 1. TOP HEADER (68px) -->
+        <!-- 1. TOP HEADER (68px, NO 3-LINES HAMBURGER) -->
+    <header class="app-top-header" id="appTopHeader">
+        <div class="top-header-left">
+            <a href="index.html" class="header-brand">
+                <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="header-logo">
+                <div class="header-brand-info">
+                    <span class="header-brand-title">DAVOMAT</span>
+                    <span class="header-brand-sub">Farg‘ona VMMTB</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="top-header-center">
+            <div class="header-widget weather" id="weatherWidget"><i class="fas fa-cloud-sun"></i> <span>...</span></div>
+            <div class="header-widget clock"><i class="fas fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+            <div class="header-widget countdown"><i class="fas fa-hourglass-half"></i> <span id="submissionTimer">00:00:00</span></div>
+        </div>
+
+        <div class="top-header-right">
+            <!-- 3 Languages Switcher: O‘zb (Lotin), Ўзб (Кирилл), Рус (Русский) -->
+            <div class="lang-switcher">
+                <button onclick="changeLang('uz')" class="lang-btn" id="uz_btn" title="O'zbekcha (Lotin)">O‘zb</button>
+                <button onclick="changeLang('oz')" class="lang-btn" id="oz_btn" title="Ўзбекча (Кирилл)">Ўзб</button>
+                <button onclick="changeLang('ru')" class="lang-btn" id="ru_btn" title="Русский">Рус</button>
+            </div>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" title="Mavzu (Dark/Light)" style="background:rgba(255,255,255,0.08); border:none; color:#fff; width:38px; height:38px; border-radius:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="topHeaderAuthContainer">
+                <a href="login.html" class="top-header-login-btn" id="topHeaderLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> <span data-i18n="nav_login">Kirish</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE BACKDROP -->
+    <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop" onclick="toggleSidebar()"></div>
+    
+
+    <!-- 2. SUB-HEADER LEFT SLIDEBAR (STARTS BELOW TOP HEADER) -->
+        <!-- 2. SLIDEBAR / SIDEBAR -->
+        <!-- FLOATING DOCK TOGGLE BUTTON (DOIMIY TURUVCHI SLIDEBAR TUGMASI) -->
+    <button class="sidebar-floating-toggle-btn" id="sidebarFloatingBtn" onclick="toggleSidebar()" title="Menyuni ochish/yopish">
+        <i class="fas fa-bars" id="sidebarFloatingIcon"></i>
+    </button>
+
+    <!-- 2. SLIDEBAR / SIDEBAR (NAVBARGA YOPISHMAGAN, AJRALIB TURUVCHI DOCK) -->
+    <aside class="sidebar-slidebar" id="appSidebar">
+        <!-- Slidebar Right Edge Collapse Button -->
+        <button class="sidebar-edge-toggle-btn" id="sidebarEdgeToggleBtn" onclick="toggleSidebar()" title="Menyuni berkitish">
+            <i class="fas fa-chevron-left" id="sidebarEdgeIcon"></i>
+        </button>
+        <!-- O'ZBEK MILLIY ISLIMIY NAQSH MEDALYONI -->
+                <!-- VMMTB RASMIY LOGO VA BOSHQARMA NOMI -->
+        <div class="sidebar-vmmtb-branding">
+            <img src="assets/vmmtb_logo.png" onerror="this.src='../assets/vmmtb_logo.png'" alt="VMMTB" class="sidebar-vmmtb-logo">
+            <div class="sidebar-vmmtb-title" data-i18n="sidebar_org_title">
+                Farg‘ona viloyati maktabgacha va maktab ta'limi boshqarmasi
+            </div>
+        </div>
+
+
+
+        <div class="sidebar-section-title" data-i18n="menu_main_section">Asosiy Bo'limlar</div>
+        <div class="sidebar-menu-list">
+            <a href="index.html" class="sidebar-nav-link ">
+                <i class="fas fa-home" style="color:#60a5fa;"></i> <span class="sidebar-text" data-i18n="menu_home">Bosh Sahifa</span>
+            </a>
+            <a href="davomat.html" class="sidebar-nav-link active">
+                <i class="fas fa-edit" style="color:#38bdf8;"></i> <span class="sidebar-text" data-i18n="menu_davomat">Davomat Kiritish</span>
+            </a>
+            <a href="xorij.html" class="sidebar-nav-link ">
+                <i class="fas fa-globe" style="color:#06b6d4;"></i> <span class="sidebar-text" data-i18n="menu_xorij">Xorij Nazorati</span>
+            </a>
+            <a href="inspektor.html" class="sidebar-nav-link ">
+                <i class="fas fa-user-shield" style="color:#f59e0b;"></i> <span class="sidebar-text" data-i18n="menu_inspektor">Inspektor Nazorati</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-nav-link ">
+                <i class="fas fa-chart-pie" style="color:#a855f7;"></i> <span class="sidebar-text" data-i18n="menu_dashboard">Dashboard</span>
+            </a>
+            
+            <div class="sidebar-sub-menu" id="dashSubMenu" style="display: none;">
+                <button class="sidebar-sub-item active" onclick="showTab('viloyat')" id="tab_viloyat"><i class="fas fa-city" style="color:#38bdf8;"></i> <span data-i18n="menu_viloyat_svod">Viloyat Svod</span></button>
+                <button class="sidebar-sub-item" onclick="location.href='xarita.html'" id="tab_xarita"><i class="fas fa-map-location-dot" style="color:#10b981;"></i> <span data-i18n="menu_map">Xarita (SVG)</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('tuman')" id="tab_tuman"><i class="fas fa-school" style="color:#a855f7;"></i> <span data-i18n="menu_tuman_svod">Tuman Svod</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('students')" id="tab_students"><i class="fas fa-users" style="color:#ef4444;"></i> <span data-i18n="menu_students">Sababsizlar</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('recent')" id="tab_recent"><i class="fas fa-bolt" style="color:#f59e0b;"></i> <span data-i18n="menu_live">Jonli Monitor</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('analysis')" id="tab_analysis"><i class="fas fa-chart-line" style="color:#8b5cf6;"></i> <span data-i18n="menu_analysis">Tahlil & Grafika</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('parents')" id="tab_parents"><i class="fas fa-user-friends" style="color:#ec4899;"></i> <span data-i18n="menu_parents">Ota-onalar Nazorati</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('ranking')" id="tab_ranking"><i class="fas fa-trophy" style="color:#f59e0b;"></i> <span data-i18n="menu_ranking">MMIBDO‘‘ Reyting</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('profile')" id="tab_profile"><i class="fas fa-user-cog" style="color:#94a3b8;"></i> <span data-i18n="menu_profile">Profil</span></button>
+            </div>
+        </div>
+
+        <div class="sidebar-section-title" data-i18n="menu_system_section">Boshqaruv & Tizim</div>
+        <div class="sidebar-menu-list">
+            <a href="admin.html" class="sidebar-nav-link ">
+                <i class="fas fa-sliders" style="color:#ec4899;"></i> <span class="sidebar-text" data-i18n="menu_admin">Admin Panel</span>
+            </a>
+            <a href="oferta.html" class="sidebar-nav-link ">
+                <i class="fas fa-file-signature" style="color:#facc15;"></i> <span class="sidebar-text" data-i18n="menu_oferta">Ommaviy Oferta</span>
+            </a>
+            <a href="about.html?tab=hujjatlar" class="sidebar-nav-link">
+                <i class="fas fa-file-contract" style="color:#c084fc;"></i> <span class="sidebar-text" data-i18n="menu_docs">Me'yoriy Hujjatlar</span>
+            </a>
+            <a href="about.html" class="sidebar-nav-link ">
+                <i class="fas fa-info-circle" style="color:#94a3b8;"></i> <span class="sidebar-text" data-i18n="menu_about">Biz Haqimizda</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 3. MOBILE BOTTOM NAVIGATION -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-bottom-item "><i class="fas fa-home"></i><span>Asosiy</span></a>
+        <a href="davomat.html" class="mobile-bottom-item active"><i class="fas fa-edit"></i><span>Davomat</span></a>
+        <a href="dashboard.html" class="mobile-bottom-item "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="inspektor.html" class="mobile-bottom-item "><i class="fas fa-user-shield"></i><span>Inspektor</span></a>
+        <a href="javascript:void(0)" onclick="toggleSidebar()" class="mobile-bottom-item"><i class="fas fa-bars"></i><span>Menyu</span></a>
+    </nav>
+    
+    <!-- ASOSIY KONTENT MAYDONI (MAIN VIEWPORT) -->
+    <main class="main-content-wrapper app-main-viewport">
+        <div class="container davomat-compact-container">
+        <header style="margin-bottom: 18px; text-align: center;">
+            <div style="margin-bottom: 12px;">
+                <h2 style="font-size: 1.45rem; font-weight: 700; color: #f8fafc; margin: 0;" data-i18n="hero_title">Davomat Kiritish Shakli</h2>
+                <span style="font-size: 0.85rem; color: #94a3b8;" data-i18n="hero_subtitle">Farg'ona viloyati Maktabgacha va maktab ta'limi boshqarmasi</span>
+            </div>
+
+            <div class="progress-container" style="margin: 0 auto 12px auto;">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="steps">
+                    <div class="step active" data-step="1">1</div>
+                    <div class="step" data-step="2">2</div>
+                    <div class="step" data-step="3">3</div>
+                    <div class="step" data-step="4">4</div>
+                    <div class="step" data-step="5">5</div>
+                    <div class="step" data-step="6">6</div>
+                </div>
+            </div>
+        </header>
+
+        <form id="attendanceForm">
+            <!-- Step 1: User Info -->
+            <div class="form-step active" id="step1">
+                <h2><i class="fas fa-user-circle"></i> <span data-i18n="step1_title">Shaxsiy ma'lumotlar</span></h2>
+                <div class="input-group">
+                    <label data-i18n="label_fio">F.I.SH (MMIBDO‘')</label>
+                    <input type="text" id="fio" placeholder="Masalan: Turdiyev Rustam" required>
+                </div>
+                <div class="input-group">
+                    <label data-i18n="label_phone">Telefon raqam</label>
+                    <input type="tel" id="phone" placeholder="+998" required onchange="checkProUser()">
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-next">Keyingi <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 2: Location -->
+            <div class="form-step" id="step2">
+                <h2><i class="fas fa-map-marked-alt"></i> <span data-i18n="step2_title">Hudud va Maktab</span></h2>
+                <div class="input-group">
+                    <label data-i18n="label_district">Tuman / Shahar</label>
+                    <select id="district" onchange="loadSchools()" required>
+                        <option value="" data-i18n="label_boshqa">Tanlang...</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label data-i18n="label_school">Maktab / Muassasa</label>
+                    <select id="school" required disabled onchange="checkSchoolSubscription()">
+                        <option value="">Avval tumanni tanlang...</option>
+                    </select>
+                    <div id="schoolAccessBadge" style="margin-top:8px; font-size:12px; display:none; padding:8px 12px; border-radius:8px;"></div>
+                </div>
+                <div style="margin: 8px 0 15px; text-align: right;">
+                    <button type="button" onclick="showPaymentModal()" style="background: none; border: none; color: #38bdf8; font-size: 13px; cursor: pointer; text-decoration: underline; display: inline-flex; align-items: center; gap: 5px; font-weight: 500;">
+                        <i class="fas fa-receipt"></i> <span data-i18n="btn_pay_receipt">To'lov qilish / Chek yuklash</span>
+                    </button>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-prev">Ortga</button>
+                    <button type="button" class="btn btn-next">Keyingi</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Counts -->
+            <div class="form-step" id="step3">
+                <h2><i class="fas fa-calculator"></i> <span data-i18n="step3_title">Jami ko'rsatkichlar</span></h2>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label data-i18n="label_classes">Sinf soni</label>
+                        <input type="number" id="classes_count" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="label_students">O'quvchi soni</label>
+                        <input type="number" id="total_students" required>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-prev">Ortga</button>
+                    <button type="button" class="btn btn-next">Keyingi</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Sababli -->
+            <div class="form-step" id="step4">
+                <h2><i class="fas fa-user-check"></i> <span data-i18n="step4_title">Sababli kelmaganlar</span></h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label><i class="fas fa-thermometer-half"></i> <span
+                                data-i18n="label_kasal">Kasal</span></label>
+                        <input type="number" class="sababli" id="sababli_kasal" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-trophy"></i> <span data-i18n="label_tadbir">Tadbir va
+                                tanlovlarda</span></label>
+                        <input type="number" class="sababli" id="sababli_tadbirlar" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-home"></i> <span data-i18n="label_oilaviy">Oilaviy tadbir</span></label>
+                        <input type="number" class="sababli" id="sababli_oilaviy" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-handshake-angle"></i> <span data-i18n="label_ijtimoiy">Ijtimoiy ahvoli
+                                og'ir</span></label>
+                        <input type="number" class="sababli" id="sababli_ijtimoiy" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-info-circle"></i> <span data-i18n="label_boshqa">Boshqa</span></label>
+                        <input type="number" class="sababli" id="sababli_boshqa" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-calculator"></i> <span data-i18n="label_total_s">JAMI
+                                SABABLI</span></label>
+                        <input type="number" id="sababli_total" value="0" disabled>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-prev">Ortga</button>
+                    <button type="button" class="btn btn-next">Keyingi</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Sababsiz -->
+            <div class="form-step" id="step5">
+                <h2><i class="fas fa-user-times"></i> <span data-i18n="step5_title">Sababsiz kelmaganlar</span></h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label><i class="fas fa-clock"></i> <span data-i18n="label_muntazam">Surunkali</span></label>
+                        <input type="number" class="sababsiz" id="sababsiz_muntazam" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-search"></i> <span data-i18n="label_qidiruv">Qidiruvda</span></label>
+                        <input type="number" class="sababsiz" id="sababsiz_qidiruv" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-plane-departure"></i> <span data-i18n="label_chetel">Chet
+                                elda</span></label>
+                        <input type="number" class="sababsiz" id="sababsiz_chetel" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-briefcase"></i> <span
+                                data-i18n="label_ishlab">Ishlayotgan</span></label>
+                        <input type="number" class="sababsiz" id="sababsiz_ishlab" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-question-circle"></i> <span
+                                data-i18n="label_boshqa">Boshqa</span></label>
+                        <input type="number" class="sababsiz" id="sababsiz_boshqa" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-calculator"></i> <span data-i18n="label_total_ss">JAMI
+                                SABABSIZ</span></label>
+                        <input type="number" id="sababsiz_total" value="0" disabled>
+                    </div>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-prev">Ortga</button>
+                    <button type="button" class="btn" onclick="processAfterStep5()"
+                        style="background: var(--primary); color: white;">Keyingi <i
+                            class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 6: Summary -->
+            <div class="form-step" id="step6">
+                <div id="studentDetailsHeader" class="hidden">
+                    <h2><i class="fas fa-list"></i> O'quvchilar ro'yxati</h2>
+                    <p id="absentInfoMsg" style="margin-bottom: 20px; font-size: 0.9rem; color: #fbbf24;"></p>
+                </div>
+                <div id="studentInputsContainer"></div>
+
+                <div class="summary-card" id="finalSummary">
+                    <h2><i class="fas fa-check-double"></i> <span data-i18n="step6_title">Tasdiqlash</span></h2>
+                    <div class="summary-item"><span>Kelmaganlar:</span> <b id="sum_absent">0</b></div>
+                    <div class="summary-item"><span>Davomat:</span> <b id="sum_percent">0%</b></div>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-prev">Ortga</button>
+                    <button type="submit" class="btn btn-next" style="background: #10b981;">Yuborish</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="successOverlay" class="overlay hidden">
+        <div class="success-card">
+            <i class="fas fa-check-circle success-icon"
+                style="color: #10b981; font-size: 5rem; margin-bottom: 2rem;"></i>
+            <h2 id="successTitle" style="color: #fff; margin-bottom: 1rem;" data-i18n="success_title">Rahmat!</h2>
+            <div id="successMsg" style="line-height: 1.6; color: #cbd5e1; font-size: 1.1rem; margin-bottom: 2rem;"
+                data-i18n="success_msg">Ma'lumotlar muvaffaqiyatli qabul qilindi.
+            </div>
+
+            <!-- PRO: Download Bildirgi -->
+            <div id="proDownloadSection" class="hidden"
+                style="margin-bottom: 25px; background: rgba(99, 102, 241, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                <p style="color: #facc15; font-size: 0.95rem; margin-bottom: 12px; font-weight: 600;">
+                    <i class="fas fa-crown"></i> 👑 PRO: Bildirishnomangiz tayyor!
+                </p>
+                <button type="button" id="downloadBildirgiBtn" class="btn"
+                    style="background: #6366f1; width: 100%; justify-content: center; margin-bottom: 5px;">
+                    <i class="fas fa-file-pdf"></i> Bildirgini yuklab olish
+                </button>
+            </div>
+            <!-- PRO Promo in Success Screen -->
+            <div id="proPromoSuccess" style="margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; text-align: center;">
+                 <p style="color: #facc15; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px;"><i class="fas fa-crown"></i> PRO-GA O'TISH</p>
+                 <div id="davomatCardDisplay" style="display:none; margin-bottom:15px; animation: fadeIn 0.3s;">
+                     <img src="assets/agro_card.png" style="width:100%; border-radius:10px; box-shadow:0 10px 20px rgba(0,0,0,0.4); margin-bottom:12px;">
+                     <div style="background:rgba(0,0,0,0.3); padding:8px; border-radius:8px; display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.05);">
+                        <code style="color:#fff; font-size:1.1rem; letter-spacing:1px;">6262 5707 8542 8618</code>
+                        <button onclick="navigator.clipboard.writeText('6262570785428618'); alert('Nusxalandi!')" style="background:none; border:none; color:#facc15; cursor:pointer;"><i class="fas fa-copy"></i></button>
+                     </div>
+                     <p style="margin:0; font-size: 0.8rem; color: #94a3b8;">R.R. Turdiyev (Agrobank)</p>
+                 </div>
+                 <button id="showCardBtnDavomat" onclick="document.getElementById('davomatCardDisplay').style.display='block'; this.style.display='none'; document.getElementById('verifyBtnDavomat').style.display='block';" class="btn btn-pro" style="padding: 10px 20px; font-size: 0.8rem; width:100%;">
+                     To'lov ma'lumotlarini ko'rish
+                 </button>
+                <button id="verifyBtnDavomat" onclick="location.href='https://t.me/ferghanaregdavomat_bot'" class="btn" style="display:none; margin-top:10px; padding: 10px 20px; font-size: 0.8rem; background: #6366f1; width: 100%; border-radius: 8px;">
+                    <i class="fas fa-receipt"></i> To'lovni tasdiqlash
+                </button>
+            </div>
+
+            <button type="button" class="btn btn-next" onclick="location.reload()" style="margin: 20px auto 0;"
+                data-i18n="hero_title">Yana kiritish</button>
+        </div>
+    </div>
+
+                    <section class="app-download-section" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class="president-quote-card" id="presidentQuoteCardDavomat" style="max-width: 820px; margin: 0 auto;">
+            <div class="president-portrait-frame">
+                <img src="assets/president_mirziyoyev.png" onerror="this.src='../assets/president_mirziyoyev.png'" alt="Shavkat Mirziyoyev" class="president-portrait-img">
+            </div>
+            <div class="president-quote-body">
+                <div class="president-quote-header-wrap">
+                    <span class="president-quote-badge-title">
+                        <i class="fas fa-quote-left" style="color:#38bdf8;"></i> <span id="presidentQuoteTitleDavomat">Ta'lim — Millat Najoti va Kelajagi</span>
+                    </span>
+                    <div class="quote-indicator-dots">
+                        <span class="quote-dot active" onclick="switchPresidentQuote(0)"></span>
+                        <span class="quote-dot" onclick="switchPresidentQuote(1)"></span>
+                        <span class="quote-dot" onclick="switchPresidentQuote(2)"></span>
+                    </div>
+                </div>
+                <p class="president-quote-text" id="presidentQuoteTextDavomat">
+                    «Maktab – bu faqatgina ta’lim maskani emas, balki jamiyatning ma’naviy poydevori, ertangi kunimizni belgilovchi eng muqaddas dargohdir. O‘qituvchi va murabbiylarning mehnati har qanday e’tirofdan ustundir.»
+                </p>
+                <div class="president-quote-meta">
+                    <span class="president-author-name" data-i18n="president_author">— Shavkat Mirziyoyev</span>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <script src="script.js?v=2"></script>
+    <script src="premium/premium.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(reg => {
+        console.log('PWA ServiceWorker registered');
+      }).catch(err => console.log('SW registration failed:', err));
+    });
+  }
+</script>    <!-- Between Us Promo Widget -->
+    
+    <script>
+        (function() {
+            if (typeof updateTopHeaderAuth === 'function') {
+                updateTopHeaderAuth();
+            }
+        })();
+    </script>
+
+        
+
+        <!-- 5. IXCHAM COMPACT FOOTER -->
+        
+    
+    </main>
+    
+    
+    <!-- 3. SMOOTH SCROLLING MARQUEE TICKER (AYLANUVCHI SARIQ LENTALI TEST REJIM) -->
+    <div class="app-system-test-banner" id="testModeBanner">
+        <div class="test-banner-marquee-track">
+            <div class="test-banner-marquee-content">
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+            </div>
+        </div>
+        <button onclick="document.getElementById('testModeBanner').style.display='none'" class="banner-close-btn" title="Yopish">&times;</button>
+    </div>
+
+    <!-- 4. KENGAYTIRILGAN TO'LIQ FOOTER (MANZIL, TELEFON, UZINFOCOM VA BETWEEN US HAMKOR) -->
+    <footer class="app-sticky-footer" id="appStickyFooter">
+        <div class="footer-col-left">
+            <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="footer-org-logo">
+            <div class="footer-org-details">
+                <div class="footer-org-title">Ferghanaregdavomat &bull; Farg‘ona VMMTB</div>
+                <div class="footer-org-sub">
+                    <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> Farg'ona sh., Dodxox ko'chasi, 2-uy &bull; 
+                    <i class="fas fa-phone-alt" style="color:#38bdf8;"></i> +998 91 328 44 00</div>
+            </div>
+        </div>
+
+        <div class="footer-col-center">
+            <div class="footer-uzinfocom-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span data-i18n="footer_uzinfocom">UZINFOCOM tomonidan nazoratdan o‘tgan</span>
+            </div>
+            <span class="footer-copy" data-i18n="footer_copy">&copy; 2026 Farg‘ona VMMTB. Barcha huquqlar himoyalangan.</span>
+        </div>
+
+        <div class="footer-col-right">
+            <span class="footer-partner-label" data-i18n="footer_partner">Rasmiy hamkor:</span>
+            <a href="https://t.me/between_us_team" target="_blank" class="footer-partner-box" title="Between Us rasmiy telegram kanali">
+                <img src="assets/partners/between_us_1.png" onerror="this.src='../assets/partners/between_us_1.png'" alt="Between Us" class="footer-partner-logo">
+                <span class="footer-partner-name">Between Us Team</span>
+            </a>
+        </div>
+    </footer>
+    <script src="promo-widget.js"></script>
+
+
+
+
+
+<script>
+// =====================================================================
+// EMBEDDED REAL 963 SCHOOLS DATABASE (EXACT LIST FROM EXCEL DATABASE)
+// =====================================================================
+const REAL_SCHOOLS_DATABASE = {"Farg'ona shahri": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "4 VIDUMI", "Chet IMI"], "Marg'ilon shahri": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "1-DIUM"], "Qo'qon shahri": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "5-ВИДУМИ"], "Quvasoy shahri": ["1-maktab", "2-IDUM", "3-IDUM", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-IDUM", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab"], "Bag'dod tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "54-maktab", "55-maktab", "56-maktab", "57-maktab", "58-maktab", "59-maktab", "60-maktab", "61-maktab", "62-maktab", "63-maktab", "2-IDUM", "3 IDUMI"], "Beshariq tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "54-IDUM", "55-maktab", "56-maktab", "57-maktab", "58-maktab", "59-maktab", "60-maktab", "61-maktab", "1-IDUM"], "Buvayda tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "XTIDUM", "2-VIDUMI"], "Dang'ara tumani": ["1-maktab", "2-maktab", "3-IDUM", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-IDUM", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-IDUM", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "1-IDUM", "2-IDUM"], "Yozyovon tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab"], "Oltiariq tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-IDUM", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-IDUM", "32-maktab", "33-maktab", "34-IDUM", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "2-IDUM", "3-IDUM", "4-IDUM"], "Qo'shtepa tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "42-maktab", "43-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "2-IDUMI"], "So'x tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "1-IDUM", "2-IDUM", "3-IDUM"], "Rishton tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "54-maktab", "55-maktab", "56-maktab", "57-maktab", "58-maktab", "59-maktab", "60-maktab", "61-maktab", "62-maktab", "63-maktab", "64-maktab", "65-maktab", "66-maktab", "1-IDUM", "2-IDUM"], "Toshloq tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "29-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "47-maktab", "49-maktab", "50-maktab", "51-maktab", "2-IDUM"], "Uchko'prik tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "54-maktab", "55-maktab", "56-maktab", "18-maktab"], "Farg'ona tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-ИДУМ", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "54-maktab", "55-maktab", "56-maktab", "57-maktab", "58-maktab", "59-maktab", "60-maktab", "61-maktab", "62-maktab", "63-maktab", "2-ИДУМИ"], "O'zbekiston tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "54-maktab", "55-maktab", "56-maktab", "57-maktab", "58-maktab", "59-maktab", "60-maktab", "61-maktab", "62-maktab", "63-maktab", "64-maktab", "66-maktab", "67-maktab", "68-maktab", "69-maktab", "70-maktab", "71-maktab", "72-maktab"], "Quva tumani": ["1-maktab", "2-maktab", "3-maktab", "4-maktab", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-maktab", "35-maktab", "36-maktab", "37-maktab", "38-maktab", "39-maktab", "40-maktab", "41-maktab", "42-maktab", "43-maktab", "44-maktab", "45-maktab", "46-maktab", "47-maktab", "48-maktab", "49-maktab", "50-maktab", "51-maktab", "52-maktab", "53-maktab", "54-maktab", "55-maktab", "56-maktab", "57-maktab", "58-maktab", "59-maktab", "60-maktab", "61-maktab", "62 IDUMI", "64-maktab", "65-maktab", "66-maktab", "67-maktab", "XTAFO'MI"], "Furqat tumani": ["1-IDUM", "2-IDUM", "3-maktab", "4-IDUM", "5-maktab", "6-maktab", "7-maktab", "8-maktab", "9-maktab", "10-maktab", "11-maktab", "12-maktab", "13-maktab", "14-maktab", "15-maktab", "16-maktab", "17-maktab", "18-maktab", "19-maktab", "20-maktab", "21-maktab", "22-maktab", "23-maktab", "24-maktab", "25-maktab", "26-maktab", "27-maktab", "28-maktab", "29-maktab", "30-maktab", "31-maktab", "32-maktab", "33-maktab", "34-IDUM", "35-maktab", "36-maktab", "37-maktab", "38-maktab"]};
+
+const DISTRICT_NAMES_MAP = {
+    "Farg'ona shahri": { uz: "Farg'ona shahri", oz: "Фарғона шаҳри", ru: "г. Фергана" },
+    "Marg'ilon shahri": { uz: "Marg'ilon shahri", oz: "Марғилон шаҳри", ru: "г. Маргилан" },
+    "Qo'qon shahri": { uz: "Qo'qon shahri", oz: "Қўқон шаҳри", ru: "г. Коканд" },
+    "Quvasoy shahri": { uz: "Quvasoy shahri", oz: "Қувасой шаҳри", ru: "г. Кувасай" },
+    "Bag'dod tumani": { uz: "Bag'dod tumani", oz: "Бағдод тумани", ru: "Багдадский район" },
+    "Beshariq tumani": { uz: "Beshariq tumani", oz: "Бешариқ тумани", ru: "Бешарыкский район" },
+    "Buvayda tumani": { uz: "Buvayda tumani", oz: "Бувайда тумани", ru: "Бувайдинский район" },
+    "Dang'ara tumani": { uz: "Dang'ara tumani", oz: "Данғара тумани", ru: "Дангаринский район" },
+    "Yozyovon tumani": { uz: "Yozyovon tumani", oz: "Ёзёвон тумани", ru: "Язъяванский район" },
+    "Oltiariq tumani": { uz: "Oltiariq tumani", oz: "Олтиариқ тумани", ru: "Алтыарыкский район" },
+    "Qo'shtepa tumani": { uz: "Qo'shtepa tumani", oz: "Қўштепа тумани", ru: "Куштепинский район" },
+    "Rishton tumani": { uz: "Rishton tumani", oz: "Риштон тумани", ru: "Риштанский район" },
+    "So'x tumani": { uz: "So'x tumani", oz: "Сўх тумани", ru: "Сохский район" },
+    "Toshloq tumani": { uz: "Toshloq tumani", oz: "Тошлоқ тумани", ru: "Ташлакский район" },
+    "Uchko'prik tumani": { uz: "Uchko'prik tumani", oz: "Учкўприк тумани", ru: "Учкуприкский район" },
+    "Farg'ona tumani": { uz: "Farg'ona tumani", oz: "Фарғона тумани", ru: "Ферганский район" },
+    "Furqat tumani": { uz: "Furqat tumani", oz: "Фурқат тумани", ru: "Фуркатский район" },
+    "O'zbekiston tumani": { uz: "O'zbekiston tumani", oz: "Ўзбекистон тумани", ru: "Узбекистанский район" },
+    "Quva tumani": { uz: "Quva tumani", oz: "Қува тумани", ru: "Кувинский район" },
+    "MMT Boshqarma": { uz: "MMT Boshqarma", oz: "ММТ Бошқарма", ru: "Облуправление ММТ" },
+    "Test rejimi": { uz: "Test rejimi", oz: "Тест режими", ru: "Тестовый режим" }
+};
+
+function formatSchoolName(schoolName, lang) {
+    if (!schoolName) return '';
+    const s = String(schoolName).trim();
+    if (lang === 'uz') return s;
+
+    // Pattern: '1-maktab' or '1 maktab'
+    const m = s.match(/^(\d+)\s*[-]?\s*maktab$/i);
+    if (m) {
+        const num = m[1];
+        if (lang === 'oz') return `${num}-мактаб`;
+        if (lang === 'ru') return `Школа №${num}`;
+        return `${num}-maktab`;
+    }
+
+    // Pattern: '1-IDUM'
+    const idumMatch = s.match(/^(\d+)\s*[-]?\s*IDUM$/i);
+    if (idumMatch) {
+        const num = idumMatch[1];
+        if (lang === 'oz') return `${num}-ИДУМ`;
+        if (lang === 'ru') return `СГОШ №${num}`;
+        return `${num}-IDUM`;
+    }
+
+    if (lang === 'oz') {
+        return s.replace(/-maktab/gi, '-мактаб')
+                .replace(/maktab/gi, 'мактаб')
+                .replace(/IDUM/gi, 'ИДУМ');
+    }
+    if (lang === 'ru') {
+        return s.replace(/-maktab/gi, ' школа')
+                .replace(/maktab/gi, 'школа')
+                .replace(/IDUM/gi, 'СГОШ');
+    }
+    return s;
+}
+
+let ALL_SCHOOLS = REAL_SCHOOLS_DATABASE;
+
+function initDistrictsAndSchools() {
+    const currentLang = localStorage.getItem('lang') || 'uz';
+    const distSelect = document.getElementById('district');
+    if (!distSelect) return;
+
+    const prevSelectedDist = distSelect.value;
+    const titleText = {
+        uz: 'Tumanni tanlang',
+        oz: 'Туманни танланг',
+        ru: 'Выберите район'
+    }[currentLang] || 'Tumanni tanlang';
+
+    distSelect.innerHTML = `<option value="">-- ${titleText} --</option>`;
+
+    Object.keys(REAL_SCHOOLS_DATABASE).forEach(dKey => {
+        const opt = document.createElement('option');
+        opt.value = dKey;
+        const localizedName = (DISTRICT_NAMES_MAP[dKey] && DISTRICT_NAMES_MAP[dKey][currentLang]) || dKey;
+        opt.textContent = localizedName;
+        if (dKey === prevSelectedDist) opt.selected = true;
+        distSelect.appendChild(opt);
+    });
+
+    loadSchools();
+}
+
+function loadSchools() {
+    const distSelect = document.getElementById('district');
+    const schSelect = document.getElementById('school');
+    if (!distSelect || !schSelect) return;
+
+    const currentLang = localStorage.getItem('lang') || 'uz';
+    const selectedDist = distSelect.value;
+    const prevSchool = schSelect.value;
+
+    const selectText = {
+        uz: '-- Maktabni tanlang --',
+        oz: '-- Мактабни танланг --',
+        ru: '-- Выберите школу --'
+    }[currentLang] || '-- Maktabni tanlang --';
+
+    schSelect.innerHTML = `<option value="">${selectText}</option>`;
+
+    if (!selectedDist || !REAL_SCHOOLS_DATABASE[selectedDist]) {
+        schSelect.disabled = true;
+        return;
+    }
+
+    const schoolList = REAL_SCHOOLS_DATABASE[selectedDist];
+    schoolList.forEach(s => {
+        const opt = document.createElement('option');
+        const origName = typeof s === 'string' ? s : (s.name || s);
+        opt.value = origName;
+        opt.textContent = formatSchoolName(origName, currentLang);
+        if (origName === prevSchool) opt.selected = true;
+        schSelect.appendChild(opt);
+    });
+
+    schSelect.disabled = false;
+    checkSchoolSubscription();
+}
+
+window.addEventListener('languageChanged', (e) => {
+    initDistrictsAndSchools();
+});
+document.addEventListener('DOMContentLoaded', () => {
+    initDistrictsAndSchools();
+});
+</script>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+

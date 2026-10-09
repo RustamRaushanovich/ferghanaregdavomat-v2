@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yo'riqnoma - Farg'ona VMMTB</title>
+    <link rel="stylesheet" href="style.css?v=2.2">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .guide-container {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .guide-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .guide-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .guide-header i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .step-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .step-img {
+            margin-top: 15px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tip-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 15px 15px 0;
+            margin-top: 2rem;
+        }
+
+        .tip-box i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-widgets-bar">
+        <div class="widget-item weather" id="weatherWidget"><i class="fas fa-cloud-sun"></i> <span>...</span></div>
+        <div class="widget-item clock"><i class="fas fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+        <div class="widget-item countdown"><i class="fas fa-hourglass-half"></i> <span
+                id="submissionTimer">00:00:00</span></div>
+
+        <div class="nav-controls" style="margin-left:auto; display:flex; align-items:center; gap:10px;">
+            <button onclick="toggleTheme()" class="theme-toggle-btn icon-btn" title="Mavzu"><i
+                    class="fas fa-moon"></i></button>
+            <select onchange="changeLang(this.value)" class="lang-select" id="langSelect">
+                <option value="uz">UZ</option>
+                <option value="ru">RU</option>
+            </select>
+        </div>
+
+        <div class="source-links">
+            <a href="https://ferghanaregdavomat.uz" class="source-link"><i class="fas fa-globe"></i> web</a>
+            <a href="https://t.me/ferghanaregdavomat_bot" class="source-link"><i class="fab fa-telegram"></i> bot</a>
+        </div>
+        <button class="login-mini-btn" onclick="location.href='login.html'"><i class="fas fa-sign-in-alt"></i>
+            Kirish</button>
+    </div>
+    
+            
+            <nav class="navbar">
+    <div class="nav-branding">
+        <a href="index.html" style="text-decoration:none; display:flex; align-items:center;">
+            <img src="assets/main_logo.jpg" onerror="this.src='/assets/logo.png'" class="main-top-logo" alt="Asosiy Logo" style="margin-right: 10px;">
+            <h3 style="color:white; margin:0; font-size:1.2rem; text-shadow:0 2px 4px rgba(0,0,0,0.5);">DAVOMAT</h3>
+        </a>
+    </div>
+    <div class="nav-links">
+        <a href="index.html" class="nav-item "><i class="fas fa-home"></i> <span>Asosiy</span></a>
+        <a href="davomat.html" class="nav-item "><i class="fas fa-edit"></i> <span>Davomat</span></a>
+        <a href="inspektor.html" class="nav-item "><i class="fas fa-user-shield"></i> <span>Inspektor</span></a>
+        <a href="xorij.html" class="nav-item "><i class="fas fa-globe"></i> <span>Xorij</span></a>
+        <a href="dashboard.html" class="nav-item "><i class="fas fa-chart-pie"></i> <span>Dashboard</span></a>
+        <a href="admin.html" class="nav-item "><i class="fas fa-cog"></i> <span>Admin</span></a>
+        <a href="about.html" class="nav-item "><i class="fas fa-info-circle"></i> <span>Biz haqimizda</span></a>
+    </div>
+</nav>
+
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="guide-container">
+        <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Foydalanish bo'yicha yo'riqnoma</h2>
+
+        <!-- Web Guide -->
+        <div class="guide-section">
+            <div class="guide-header">
+                <i class="fas fa-globe"></i>
+                <h3>Veb-sayt orqali davomat kiritish</h3>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Shaxsiy ma'lumotlar</h4>
+                        <p>F.I.SH va telefon raqamingizni kiriting. Tizim avtomatik ravishda Pro foydalanuvchini
+                            aniqlaydi.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-number" style="background:none; box-shadow:none;"><i class="fas fa-arrow-down"
+                            style="color:var(--primary)"></i></div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Hudud va Maktab</h4>
+                        <p>Xaritadan yoki ro'yxatdan o'z tumaningiz va maktabingizni tanlang.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Davomat sonlari</h4>
+                        <p>Sinflar va o'quvchilar sonini, shuningdek kelmagan o'quvchilarni sabablari bilan kiriting.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Tasdiqlash va Yuborish</h4>
+                        <p>Ma'lumotlarni tekshiring va "Yuborish" tugmasini bosing. Hisobot avtomatik ravishda telegram
+                            guruhiga boradi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bot Guide -->
+        <div class="guide-section"
+            style="border: 1px solid rgba(0, 136, 204, 0.3); background: rgba(0, 136, 204, 0.05);">
+            <div class="guide-header">
+                <div
+                    style="width: 60px; height: 60px; background: #0088cc; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-right: 20px; box-shadow: 0 10px 20px rgba(0, 136, 204, 0.3);">
+                    <i class="fab fa-telegram-plane" style="color: white; font-size: 2rem;"></i>
+                </div>
+                <h3>Telegram bot orqali davomat kiritish</h3>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-number" style="background: #0088cc;">1</div>
+                    <div class="step-content">
+                        <h4>Botni ishga tushirish</h4>
+                        <p>@Ferghanaregdavomat_bot manziliga o'ting va <b>/start</b> tugmasini bosing.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number" style="background: #0088cc;">2</div>
+                    <div class="step-content">
+                        <h4>Davomat kiritish tugmasi</h4>
+                        <p>Menyudan "Davomat kiritish" tugmasini tanlang va bot ko'rsatmalariga amal qiling.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box" style="border-left-color: #0088cc; background: rgba(0, 136, 204, 0.1);">
+                <p><i class="fas fa-info-circle" style="color: #0088cc;"></i> <b>Muhim:</b> Telegram bot orqali barcha
+                    maktablar o'z vaqtida ma'lumot yuborishlari shart.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    
+                    <h4 style="margin:0;">Ferghanaregdavomat</h4>
+                </div>
+                <p>Farg'ona viloyati MMTB o‘quvchilar davomat tizimi yo'riqnomasi.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Menyu</h4>
+                <ul style="padding:0; list-style:none;">
+                    <li><a href="/">Bosh sahifa</a></li>
+                    <li><a href="/dashboard.html">Dashboard</a></li>
+                    <li><a href="/about.html">Biz haqimizda</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Farg'ona viloyati MMTB. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+    <!-- Between Us Promo Widget -->
+    <script src="promo-widget.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+

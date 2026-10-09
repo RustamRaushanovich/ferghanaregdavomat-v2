@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tashakkurnoma Generatori - Farg'ona VMMTB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Great+Vibes&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --deep-blue: #0f172a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1e293b;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- Certificate Card --- */
+        .certificate-container {
+            width: 950px;
+            height: 750px;
+            background: #0f172a;
+            position: relative;
+            margin-top: 30px;
+            border: 15px solid transparent;
+            border-image: var(--gold) 1;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 60px;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .header-logo {
+            width: 140px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.9)) brightness(1.2);
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 65px;
+            letter-spacing: 6px;
+            background: var(--gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            text-transform: uppercase;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .subtitle {
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .awardee-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 48px;
+            color: #fbbf24;
+            margin: 20px 0;
+        }
+
+        .content-text {
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #e2e8f0;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .school-badge {
+            font-size: 24px;
+            font-weight: 700;
+            background: rgba(251, 191, 36, 0.1);
+            padding: 5px 20px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+
+        .sign-area {
+            text-align: left;
+        }
+
+        .sign-title {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .sign-name {
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* --- Input Form --- */
+        .input-panel {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            width: 800px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .input-group { flex: 1; }
+        .input-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 5px; }
+        .input-group input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.1); background: #0f172a; color: white; }
+
+        .btn-download {
+            background: var(--gold);
+            color: #0f172a;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
+    </style>
+</head>
+<body>
+
+    <div class="certificate-container" id="cert">
+        <div style="margin-top: 10px; z-index: 2;">
+            <img src="assets/emblem_gold_premium.png" style="width: 190px; filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.7));">
+        </div>
+        
+        <div class="content-text" style="font-size: 20px; line-height: 1.8; margin-top: 10px; color: #f1f5f9;">
+            Ushbu bilan <b id="dispRegion" style="color: #fbbf24;">Yozyovon tumani</b>dagi 
+            <b id="dispSchool" style="color: #fbbf24;">1-maktab</b> jamoasiga <br>
+            <span id="dispDates" style="font-weight: bold; color: #cbd5e1;">(17.03.2026 dan 24.03.2026 gacha)</span> haftalik davomida <br>
+            o'z vaqtida davomatlarni kiritganligi munosabati bilan <br>
+            <b>"Ferghanaregdavomat_bot"</b> jamoasi nomidan
+        </div>
+
+        <div class="awardee-name" id="dispFISH" style="font-size: 64px; margin: 20px 0; color: #fbbf24; text-shadow: 0 0 30px rgba(251, 191, 36, 0.6); font-family: 'Playfair Display', serif; font-weight: bold; text-align: center; width: 100%;">Turdiyev Rustam Raushanovichga</div>
+
+        <h1 class="title" style="font-size: 70px; margin: 10px 0; text-shadow: 0 10px 30px rgba(0,0,0,0.6); letter-spacing: 12px;">TASHAKKURNOMA</h1>
+
+        <div class="content-text" style="font-size: 24px; color: #fbbf24; font-weight: bold; letter-spacing: 8px;">BERILADI</div>
+
+        <div class="footer">
+            <div class="sign-area">
+                <div class="sign-title">Tashkilotchi:</div>
+                <div class="sign-name" style="color: #fbbf24; font-weight: bold;">@Ferghanaregdavomat_bot jamoasi</div>
+            </div>
+            <div class="sign-area" style="text-align: right;">
+                <div class="sign-title">Guvohnoma ID:</div>
+                <div class="sign-name" style="font-family: monospace;">#FRD-CERT-PREMIUM</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-panel">
+        <div class="input-group">
+            <label>F.I.SH (To'liq)</label>
+            <input type="text" id="inFISH" value="Turdiyev Rustam Raushanovichga" oninput="updateCert()">
+        </div>
+        <div class="input-group">
+            <label>Maktab / Hudud</label>
+            <input type="text" id="inSchool" value="15-MAKTAB" oninput="updateCert()" style="margin-bottom: 5px;">
+            <input type="text" id="inRegion" value="Uchko'prik tumani" oninput="updateCert()">
+        </div>
+        <div class="input-group">
+            <label>Sana oralig'i</label>
+            <div style="display: flex; gap: 5px;">
+                <input type="date" id="inDateStart" value="2026-03-17" oninput="updateCert()">
+                <input type="date" id="inDateEnd" value="2026-03-24" oninput="updateCert()">
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-download" onclick="window.print()"><i class="fas fa-print"></i> CHOPI ETISH / SAQLASH</button>
+
+    <script>
+        function updateCert() {
+            document.getElementById('dispFISH').innerText = document.getElementById('inFISH').value;
+            document.getElementById('dispSchool').innerText = document.getElementById('inSchool').value;
+            document.getElementById('dispRegion').innerText = document.getElementById('inRegion').value;
+            
+            const start = document.getElementById('inDateStart').value.split('-').reverse().join('.');
+            const end = document.getElementById('inDateEnd').value.split('-').reverse().join('.');
+            document.getElementById('dispDates').innerText = `(${start} dan ${end} gacha)`;
+        }
+    </script>
+    <!-- Between Us Promo Widget -->
+    <script src="promo-widget.js"></script>
+</body>
+</html>
+
+
+
+
+
+

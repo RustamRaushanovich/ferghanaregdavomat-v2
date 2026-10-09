@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <script>(function(){if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light-mode');}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspektor-Psixolog Bo'limi - Farg'ona VMMTB</title>
+    <link rel="stylesheet" href="style.css?v=2.2">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --accent: rgba(59, 130, 246, 0.1);
+        }
+        .ins-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .ins-header {
+            text-align: center;
+            padding: 2.5rem 0 2rem;
+        }
+
+        .ins-header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .ins-header p {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        /* Steps */
+        .setup-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .setup-card h2 {
+            font-size: 1.1rem;
+            color: #a78bfa;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .form-group input,
+        .form-group select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #6366f1;
+            outline: none;
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        .form-group select {
+            background: rgba(30, 41, 59, 0.9) !important;
+            cursor: pointer;
+        }
+
+        /* School checkboxes */
+        .schools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .school-cb-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.82rem;
+            text-align: center;
+            user-select: none;
+        }
+
+        .school-cb-label:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.3);
+            color: white;
+        }
+
+        .school-cb-label.selected {
+            background: rgba(99, 102, 241, 0.25);
+            border-color: #6366f1;
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .school-cb-label input[type=checkbox] {
+            display: none;
+        }
+
+        /* District selection buttons */
+        .district-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .district-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .district-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.3);
+            color: white;
+        }
+
+        .district-btn.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Action button */
+        .btn-ins {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-ins:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(99, 102, 241, 0.45);
+        }
+
+        .btn-secondary-ins {
+            background: rgba(255, 255, 255, 0.07);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-secondary-ins:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+        }
+
+        /* Dashboard section (hidden initially) */
+        #insDashSection {
+            display: none;
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-mini {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-mini i {
+            font-size: 1.8rem;
+        }
+
+        .stat-mini .label {
+            font-size: 0.78rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-mini .val {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        /* Table */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ins-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .ins-table th {
+            background: rgba(99, 102, 241, 0.15);
+            padding: 12px 10px;
+            text-align: left;
+            color: #a5b4fc;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ins-table td {
+            padding: 11px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #e2e8f0;
+        }
+
+        .ins-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge-green {
+            background: #10b981;
+        }
+
+        .badge-yellow {
+            background: #f59e0b;
+        }
+
+        .badge-red {
+            background: #ef4444;
+        }
+
+        .badge-gray {
+            background: #475569;
+        }
+
+        /* Tabs */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn-ins {
+            padding: 8px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: 0.25s;
+        }
+
+        .tab-btn-ins.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: white;
+        }
+
+        .tab-content-ins {
+            display: none;
+        }
+
+        .tab-content-ins.active {
+            display: block;
+        }
+
+        /* Date picker row */
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .controls-row input[type=date] {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 9px 14px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        /* Info banner */
+        .info-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 14px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .info-banner i {
+            color: #818cf8;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Loader */
+        .loader {
+            text-align: center;
+            padding: 40px;
+            color: #475569;
+        }
+
+        .loader i {
+            font-size: 2rem;
+        }
+
+        /* Alert/Empty */
+        .empty-msg {
+            text-align: center;
+            padding: 40px;
+            color: #475569;
+        }
+
+        @media (max-width: 700px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        /* Comprehensive Light Mode Styles for Inspektor */
+        html.light-mode body {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+        html.light-mode .app-top-header {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+        }
+        html.light-mode .header-brand-title { color: #0f172a !important; }
+        html.light-mode .header-brand-sub { color: #64748b !important; }
+        html.light-mode .header-widget {
+            background: #f1f5f9 !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+        html.light-mode .sidebar-slidebar {
+            background: rgba(255, 255, 255, 0.94) !important;
+            border-right: 1px solid #e2e8f0 !important;
+            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.05) !important;
+        }
+        html.light-mode .sidebar-nav-link { color: #475569 !important; }
+        html.light-mode .sidebar-nav-link:hover { background: #f1f5f9 !important; color: #0f172a !important; }
+        html.light-mode .sidebar-nav-link.active {
+            background: linear-gradient(135deg, #0284c7, #2563eb) !important;
+            color: #ffffff !important;
+        }
+        html.light-mode .setup-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+            color: #0f172a !important;
+        }
+        html.light-mode .setup-card h2 { color: #334155 !important; }
+        html.light-mode .form-group label { color: #475569 !important; }
+        html.light-mode .form-group input,
+        html.light-mode .form-group select {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html.light-mode .stat-mini {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+        html.light-mode .stat-mini .label { color: #64748b !important; }
+        html.light-mode .stat-mini .val { color: #0f172a !important; }
+        html.light-mode .tab-btn-ins {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #475569 !important;
+        }
+        html.light-mode .tab-btn-ins.active {
+            background: #6366f1 !important;
+            color: #ffffff !important;
+        }
+        html.light-mode .ins-table-wrap table {
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+        html.light-mode .ins-table-wrap th {
+            background: #e2e8f0 !important;
+            color: #0f172a !important;
+            border-bottom: 2px solid #cbd5e1 !important;
+        }
+        html.light-mode .ins-table-wrap td {
+            color: #0f172a !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+        html.light-mode .controls-row input[type=date] {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+    </style>
+</head>
+
+<body class="page-inspektor">
+
+    <!-- 1. FULL-WIDTH TOP NAVBAR (FULL SCREEN WIDTH) -->
+        <!-- 1. TOP HEADER (68px) -->
+        <!-- 1. TOP HEADER (68px, NO 3-LINES HAMBURGER) -->
+    <header class="app-top-header" id="appTopHeader">
+        <div class="top-header-left">
+            <a href="index.html" class="header-brand">
+                <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="header-logo">
+                <div class="header-brand-info">
+                    <span class="header-brand-title">DAVOMAT</span>
+                    <span class="header-brand-sub">Farg'ona VMMTB</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="top-header-center">
+            <div class="header-widget weather" id="weatherWidget"><i class="fas fa-cloud-sun"></i> <span>...</span></div>
+            <div class="header-widget clock"><i class="fas fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+            <div class="header-widget countdown"><i class="fas fa-hourglass-half"></i> <span id="submissionTimer">00:00:00</span></div>
+        </div>
+
+        <div class="top-header-right">
+            <!-- 3 Languages Switcher: O‘zb (Lotin), Ўзб (Кирилл), Рус (Русский) -->
+            <div class="lang-switcher">
+                <button onclick="changeLang('uz')" class="lang-btn" id="uz_btn" title="O'zbekcha (Lotin)">O‘zb</button>
+                <button onclick="changeLang('oz')" class="lang-btn" id="oz_btn" title="Ўзбекча (Кирилл)">Ўзб</button>
+                <button onclick="changeLang('ru')" class="lang-btn" id="ru_btn" title="Русский">Рус</button>
+            </div>
+            <button onclick="toggleTheme()" class="theme-toggle-btn" title="Mavzu (Dark/Light)" style="background:rgba(255,255,255,0.08); border:none; color:#fff; width:38px; height:38px; border-radius:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="topHeaderAuthContainer">
+                <a href="login.html" class="top-header-login-btn" id="topHeaderLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> <span data-i18n="nav_login">Kirish</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE BACKDROP -->
+    <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop" onclick="toggleSidebar()"></div>
+    
+
+    <!-- 2. SUB-HEADER LEFT SLIDEBAR (STARTS BELOW TOP HEADER) -->
+        <!-- 2. SLIDEBAR / SIDEBAR -->
+        <!-- FLOATING DOCK TOGGLE BUTTON (DOIMIY TURUVCHI SLIDEBAR TUGMASI) -->
+    <button class="sidebar-floating-toggle-btn" id="sidebarFloatingBtn" onclick="toggleSidebar()" title="Menyuni ochish/yopish">
+        <i class="fas fa-bars" id="sidebarFloatingIcon"></i>
+    </button>
+
+    <!-- 2. SLIDEBAR / SIDEBAR (NAVBARGA YOPISHMAGAN, AJRALIB TURUVCHI DOCK) -->
+    <aside class="sidebar-slidebar" id="appSidebar">
+        <!-- Slidebar Right Edge Collapse Button -->
+        <button class="sidebar-edge-toggle-btn" id="sidebarEdgeToggleBtn" onclick="toggleSidebar()" title="Menyuni berkitish">
+            <i class="fas fa-chevron-left" id="sidebarEdgeIcon"></i>
+        </button>
+        <!-- O'ZBEK MILLIY ISLIMIY NAQSH MEDALYONI -->
+                <!-- VMMTB RASMIY LOGO VA BOSHQARMA NOMI -->
+        <div class="sidebar-vmmtb-branding">
+            <img src="assets/vmmtb_logo.png" onerror="this.src='../assets/vmmtb_logo.png'" alt="VMMTB" class="sidebar-vmmtb-logo">
+            <div class="sidebar-vmmtb-title" data-i18n="sidebar_org_title">
+                Farg‘ona viloyati maktabgacha va maktab ta'limi boshqarmasi
+            </div>
+        </div>
+
+
+
+        <div class="sidebar-section-title" data-i18n="menu_main_section">Asosiy Bo'limlar</div>
+        <div class="sidebar-menu-list">
+            <a href="index.html" class="sidebar-nav-link ">
+                <i class="fas fa-home" style="color:#60a5fa;"></i> <span class="sidebar-text" data-i18n="menu_home">Bosh Sahifa</span>
+            </a>
+            <a href="davomat.html" class="sidebar-nav-link ">
+                <i class="fas fa-edit" style="color:#38bdf8;"></i> <span class="sidebar-text" data-i18n="menu_davomat">Davomat Kiritish</span>
+            </a>
+            <a href="xorij.html" class="sidebar-nav-link ">
+                <i class="fas fa-globe" style="color:#06b6d4;"></i> <span class="sidebar-text" data-i18n="menu_xorij">Xorij Nazorati</span>
+            </a>
+            <a href="inspektor.html" class="sidebar-nav-link active">
+                <i class="fas fa-user-shield" style="color:#f59e0b;"></i> <span class="sidebar-text" data-i18n="menu_inspektor">Inspektor Nazorati</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-nav-link ">
+                <i class="fas fa-chart-pie" style="color:#a855f7;"></i> <span class="sidebar-text" data-i18n="menu_dashboard">Dashboard</span>
+            </a>
+            
+            <div class="sidebar-sub-menu" id="dashSubMenu" style="display: none;">
+                <button class="sidebar-sub-item active" onclick="showTab('viloyat')" id="tab_viloyat"><i class="fas fa-city" style="color:#38bdf8;"></i> <span data-i18n="menu_viloyat_svod">Viloyat Svod</span></button>
+                <button class="sidebar-sub-item" onclick="location.href='xarita.html'" id="tab_xarita"><i class="fas fa-map-location-dot" style="color:#10b981;"></i> <span data-i18n="menu_map">Xarita (SVG)</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('tuman')" id="tab_tuman"><i class="fas fa-school" style="color:#a855f7;"></i> <span data-i18n="menu_tuman_svod">Tuman Svod</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('students')" id="tab_students"><i class="fas fa-users" style="color:#ef4444;"></i> <span data-i18n="menu_students">Sababsizlar</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('recent')" id="tab_recent"><i class="fas fa-bolt" style="color:#f59e0b;"></i> <span data-i18n="menu_live">Jonli Monitor</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('analysis')" id="tab_analysis"><i class="fas fa-chart-line" style="color:#8b5cf6;"></i> <span data-i18n="menu_analysis">Tahlil & Grafika</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('parents')" id="tab_parents"><i class="fas fa-user-friends" style="color:#ec4899;"></i> <span data-i18n="menu_parents">Ota-onalar Nazorati</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('ranking')" id="tab_ranking"><i class="fas fa-trophy" style="color:#f59e0b;"></i> <span data-i18n="menu_ranking">MMIBDO‘ Reyting</span></button>
+                <button class="sidebar-sub-item" onclick="showTab('profile')" id="tab_profile"><i class="fas fa-user-cog" style="color:#94a3b8;"></i> <span data-i18n="menu_profile">Profil</span></button>
+            </div>
+        </div>
+
+        <div class="sidebar-section-title" data-i18n="menu_system_section">Boshqaruv & Tizim</div>
+        <div class="sidebar-menu-list">
+            <a href="admin.html" class="sidebar-nav-link ">
+                <i class="fas fa-sliders" style="color:#ec4899;"></i> <span class="sidebar-text" data-i18n="menu_admin">Admin Panel</span>
+            </a>
+            <a href="oferta.html" class="sidebar-nav-link ">
+                <i class="fas fa-file-signature" style="color:#facc15;"></i> <span class="sidebar-text" data-i18n="menu_oferta">Ommaviy Oferta</span>
+            </a>
+            <a href="about.html?tab=hujjatlar" class="sidebar-nav-link">
+                <i class="fas fa-file-contract" style="color:#c084fc;"></i> <span class="sidebar-text" data-i18n="menu_docs">Me'yoriy Hujjatlar</span>
+            </a>
+            <a href="about.html" class="sidebar-nav-link ">
+                <i class="fas fa-info-circle" style="color:#94a3b8;"></i> <span class="sidebar-text" data-i18n="menu_about">Biz Haqimizda</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 3. MOBILE BOTTOM NAVIGATION -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-bottom-item "><i class="fas fa-home"></i><span>Asosiy</span></a>
+        <a href="davomat.html" class="mobile-bottom-item "><i class="fas fa-edit"></i><span>Davomat</span></a>
+        <a href="dashboard.html" class="mobile-bottom-item "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a href="inspektor.html" class="mobile-bottom-item active"><i class="fas fa-user-shield"></i><span>Inspektor</span></a>
+        <a href="javascript:void(0)" onclick="toggleSidebar()" class="mobile-bottom-item"><i class="fas fa-bars"></i><span>Menyu</span></a>
+    </nav>
+    
+    <!-- ASOSIY KONTENT MAYDONI (MAIN VIEWPORT) -->
+    <main class="main-content-wrapper app-main-viewport">
+
+    <div class="ins-page">
+        <!-- Header -->
+        <div class="ins-header">
+            <h1><i class="fas fa-user-shield"
+                    style="-webkit-text-fill-color:#818cf8; font-size:1.8rem; margin-right:10px;"></i>
+                Inspektor-Psixolog Bo'limi</h1>
+            <p>O'zingizga biriktirilgan maktablar davomatini kuzating va tahlil qiling</p>
+        </div>
+
+        <!-- SETUP SECTION -->
+        <div id="insSetupSection">
+            <div class="setup-card">
+                <h2><i class="fas fa-id-card"></i> Shaxsiy ma'lumotlar</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>F.I.SH (To'liq ism-familiya)</label>
+                        <input type="text" id="insFio" placeholder="Masalan: Turdiyeva Malika" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon raqam</label>
+                        <input type="tel" id="insPhone" placeholder="+998 91 328 44 00" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="setup-card">
+                <h2><i class="fas fa-city"></i> Hudud va maktablar</h2>
+                <div class="form-group" style="margin-bottom:1.5rem;">
+                    <label>Sizning hududingizni tanlang</label>
+                    <div id="districtButtons" class="district-grid">
+                        <!-- Buttons will be injected here -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Sizga biriktirilgan maktablar <span style="color:#f59e0b; font-size:0.8rem;">(Maksimum 10
+                            ta)</span></label>
+                    <div id="insSchoolsGrid" class="schools-grid">
+                        <div class="empty-msg" style="padding:20px; font-size:0.85rem;">
+                            <i class="fas fa-map-pin"></i><br>Avval hududni tanlang
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align:right; margin-top:0.5rem; font-size:0.82rem; color:#64748b;">
+                    Tanlangan: <span id="selectedCount">0</span> ta
+                </div>
+            </div>
+
+            <div style="display:flex; gap:12px; justify-content:flex-end;">
+                <button class="btn-secondary-ins" onclick="clearInsSetup()">
+                    <i class="fas fa-redo"></i> Tozalash
+                </button>
+                <button class="btn-ins" onclick="startInsDash()">
+                    <i class="fas fa-chart-bar"></i> Hisobotni ko'rish
+                </button>
+            </div>
+        </div>
+
+        <!-- DASHBOARD SECTION -->
+        <div id="insDashSection">
+            <!-- Info banner -->
+            <div class="info-banner">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <b id="insBannerName">—</b> |
+                    <span id="insBannerDistrict" style="color:#818cf8;"></span> —
+                    <span id="insBannerSchools" style="color:#94a3b8;"></span>
+                    <a href="#" onclick="resetInsDash()"
+                        style="margin-left:12px; color:#f59e0b; font-size:0.82rem; text-decoration:none;"><i
+                            class="fas fa-edit"></i> O'zgartirish</a>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-mini">
+                    <i class="fas fa-school" style="color:#6366f1;"></i>
+                    <div>
+                        <div class="label">Maktablar</div>
+                        <div class="val" id="ins_stat_schools">0</div>
+                    </div>
+                </div>
+                <div class="stat-mini">
+                    <i class="fas fa-check-circle" style="color:#10b981;"></i>
+                    <div>
+                        <div class="label">Hisobot berdi</div>
+                        <div class="val" id="ins_stat_submitted">0</div>
+                    </div>
+                </div>
+                <div class="stat-mini">
+                    <i class="fas fa-user-times" style="color:#ef4444;"></i>
+                    <div>
+                        <div class="label">Sababsiz</div>
+                        <div class="val" id="ins_stat_sababsiz">0</div>
+                    </div>
+                </div>
+                <div class="stat-mini">
+                    <i class="fas fa-percentage" style="color:#f59e0b;"></i>
+                    <div>
+                        <div class="label">O'rtacha davomat</div>
+                        <div class="val" id="ins_stat_avg">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tab-nav">
+                <button class="tab-btn-ins active" onclick="showInsTab('schools')"><i class="fas fa-school"></i>
+                    Maktablar</button>
+                <button class="tab-btn-ins" onclick="showInsTab('absents')"><i class="fas fa-user-times"></i>
+                    Sababsizlar</button>
+                <button class="tab-btn-ins" onclick="showInsTab('trend')"><i class="fas fa-chart-line"></i> Trend (7
+                    kun)</button>
+            </div>
+
+            <!-- Date control -->
+            <div class="controls-row">
+                <div class="form-group">
+                    <label>Sana</label>
+                    <input type="date" id="insDashDate" onchange="loadInsDashData()">
+                </div>
+                <button class="btn-ins" onclick="loadInsDashData()" style="padding:9px 20px; font-size:0.9rem;">
+                    <i class="fas fa-sync"></i> Yangilash
+                </button>
+            </div>
+
+            <!-- Tab: Schools -->
+            <div class="tab-content-ins active" id="tab-schools">
+                <div class="table-wrap">
+                    <table class="ins-table">
+                        <thead>
+                            <tr>
+                                <th>Maktab</th>
+                                <th>O'quvchi</th>
+                                <th>Sababli</th>
+                                <th>Sababsiz</th>
+                                <th>Davomat %</th>
+                                <th>Holat</th>
+                                <th>Bildirgi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="insSchoolsTbody">
+                            <tr>
+                                <td colspan="7" class="loader"><i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab: Absents -->
+            <div class="tab-content-ins" id="tab-absents">
+                <div class="table-wrap">
+                    <table class="ins-table">
+                        <thead>
+                            <tr>
+                                <th>Maktab</th>
+                                <th>Sinf</th>
+                                <th>O'quvchi</th>
+                                <th>Ota-onasi</th>
+                                <th>Telefon</th>
+                                <th>Holat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="insAbsentsTbody">
+                            <tr>
+                                <td colspan="6" class="loader"><i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab: Trend -->
+            <div class="tab-content-ins" id="tab-trend">
+                <div class="setup-card">
+                    <h2><i class="fas fa-chart-line"></i> Oxirgi 7 kunlik tahlil</h2>
+                    <div id="insTrendContent" class="loader">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i><br>
+                        <p style="margin-top:10px;">Ma'lumotlar tahlil qilinmoqda...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    
+
+    <script src="script.js?v=4"></script>
+    <script>
+        const DISTRICTS = ["Farg'ona shahri", "Marg'ilon shahri", "Qo'qon shahri", "Quvasoy shahri", "Bag'dod tumani", "Beshariq tumani", "Buvayda tumani", "Dang'ara tumani", "Yozyovon tumani", "Oltiariq tumani", "Qo'shtepa tumani", "Rishton tumani", "So'x tumani", "Toshloq tumani", "Uchko'prik tumani", "Farg'ona tumani", "Furqat tumani", "O'zbekiston tumani", "Quva tumani"];
+
+        let insMyFio = '', insMyPhone = '', insMyDistrict = '', insMySchools = [];
+
+        // Populate districts
+        document.addEventListener('DOMContentLoaded', () => {
+            startLiveClock();
+
+            const saved = localStorage.getItem('ins_profile');
+            if (saved) {
+                const p = JSON.parse(saved);
+                insMyFio = p.fio; insMyPhone = p.phone; insMyDistrict = p.district; insMySchools = p.schools;
+                document.getElementById('insFio').value = p.fio;
+                document.getElementById('insPhone').value = p.phone;
+            }
+
+            const distGrid = document.getElementById('districtButtons');
+            DISTRICTS.forEach(d => {
+                const btn = document.createElement('div');
+                btn.className = 'district-btn';
+                if (insMyDistrict === d) btn.classList.add('active');
+                btn.textContent = d;
+                btn.onclick = () => selectDistrict(d, btn);
+                distGrid.appendChild(btn);
+            });
+
+            if (insMyDistrict) {
+                loadInsSchools(true);
+            }
+        });
+
+        function selectDistrict(d, btn) {
+            document.querySelectorAll('.district-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            insMyDistrict = d;
+            loadInsSchools(false);
+        }
+
+        async function loadInsSchools(keepSelected = false) {
+            const dist = insMyDistrict;
+            const grid = document.getElementById('insSchoolsGrid');
+            if (!dist) { grid.innerHTML = '<div class="empty-msg" style="padding:20px; font-size:0.85rem;"><i class="fas fa-info-circle"></i><br>Avval hududni tanlang</div>'; return; }
+
+            grid.innerHTML = '<div class="loader" style="padding:20px;"><i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...</div>';
+            try {
+                const res = await fetch(`/api/schools?district=${encodeURIComponent(dist)}`);
+                const schools = await res.json();
+                grid.innerHTML = '';
+
+                schools.forEach(s => {
+                    const label = document.createElement('label');
+                    label.className = 'school-cb-label';
+                    const isSelected = keepSelected && insMySchools.includes(s);
+                    label.innerHTML = `<input type="checkbox" value="${s.replace(/"/g, '&quot;')}" ${isSelected ? 'checked' : ''}> <span>${s}</span>`;
+                    if (isSelected) label.classList.add('selected');
+                    label.querySelector('input').addEventListener('change', e => {
+                        const expectedCount = parseInt(document.getElementById('insSchoolsCount').value) || 0;
+                        const checked2 = document.querySelectorAll('.school-cb-label input:checked').length;
+                        if (checked2 > expectedCount) { e.target.checked = false; alert('Siz faqat ' + expectedCount + ' ta maktabni tanlay olasiz!'); return; }
+                        e.target.parentElement.classList.toggle('selected', e.target.checked);
+                        document.getElementById('selectedCount').textContent = document.querySelectorAll('.school-cb-label input:checked').length;
+                    });
+                    grid.appendChild(label);
+                });
+                document.getElementById('selectedCount').textContent = document.querySelectorAll('.school-cb-label input:checked').length;
+            } catch (e) {
+                grid.innerHTML = '<div class="empty-msg" style="color:red; padding:20px;">Xatolik yuz berdi. Server bilan ulanishni tekshiring.</div>';
+            }
+        }
+
+        function updateCount(label) {
+            document.getElementById('selectedCount').textContent = document.querySelectorAll('.school-cb-label input:checked').length;
+        }
+
+        function clearInsSetup() {
+            document.getElementById('insFio').value = '';
+            document.getElementById('insPhone').value = '';
+            document.querySelectorAll('.district-btn').forEach(b => b.classList.remove('active'));
+            insMyDistrict = '';
+            document.getElementById('insSchoolsGrid').innerHTML = '<div class="empty-msg" style="padding:20px; font-size:0.85rem;"><i class="fas fa-info-circle"></i><br>Avval hududni tanlang</div>';
+            document.getElementById('selectedCount').textContent = '0';
+            localStorage.removeItem('ins_profile');
+        }
+
+        async function saveInsProfile() {
+            if (!insMyPhone) return;
+            try {
+                await fetch('/api/inspector/profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: insMyPhone, fio: insMyFio, district: insMyDistrict, schools: insMySchools })
+                });
+            } catch (e) { }
+        }
+
+        async function logInsActivity(action, details = '') {
+            if (!insMyPhone) return;
+            try {
+                await fetch('/api/inspector/activity', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: insMyPhone, action, details })
+                });
+            } catch (e) { }
+        }
+
+        function startInsDash() {
+            const fio = document.getElementById('insFio').value.trim();
+            const phone = document.getElementById('insPhone').value.trim();
+            const district = insMyDistrict;
+            const expectedCount = parseInt(document.getElementById('insSchoolsCount').value) || 0;
+            const cbs = document.querySelectorAll('.school-cb-label input:checked');
+            const schools = Array.from(cbs).map(cb => cb.value);
+
+            if (!fio || !phone) {
+                document.getElementById('insStep2').style.display = 'none';
+                document.getElementById('insStep1').style.display = 'block';
+                return alert('Shaxsiy ma\u0027lumotlar to\u0027ldirilmagan!');
+            }
+            if (expectedCount <= 0) return alert('Nechta maktab biriktirilganini kiritishingiz kerak!');
+            if (!district) return alert('Hududni tanlang!');
+            if (schools.length !== expectedCount) return alert('Kiritilgan raqam ' + expectedCount + ' ga teng bo\u0027lishi kerak, lekin ' + schools.length + ' ta maktab tanlandi!');
+
+            insMyFio = fio; insMyPhone = phone; insMyDistrict = district; insMySchools = schools;
+            localStorage.setItem('ins_profile', JSON.stringify({ fio, phone, district, schools, expectedCount }));
+
+            alert('Ma\u0027lumotlar muvaffaqiyatli saqlandi!');
+
+            document.getElementById('insSetupSection').style.display = 'none';
+            document.getElementById('insDashSection').style.display = 'block';
+
+            document.getElementById('insBannerName').textContent = fio;
+            document.getElementById('insBannerDistrict').textContent = district;
+            document.getElementById('insBannerSchools').textContent = schools.length + " ta maktab";
+            document.getElementById('ins_stat_schools').textContent = schools.length;
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('insDashDate').value = today;
+
+            try { saveInsProfile(); } catch(e){}
+            try { logInsActivity('start_dash', 'District: ' + district); }catch(e){}
+            loadInsDashData();
+        }
+
+        function resetInsDash() {
+            logInsActivity('reset_setup');
+            document.getElementById('insDashSection').style.display = 'none';
+            document.getElementById('insSetupSection').style.display = 'block';
+        }
+
+        function showInsTab(tab) {
+            document.querySelectorAll('.tab-btn-ins').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content-ins').forEach(c => c.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn-ins')).find(b => b.textContent.toLowerCase().includes(tab.toLowerCase()) || b.onclick.toString().includes(tab));
+            if (activeBtn) activeBtn.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+            logInsActivity('switch_tab', tab);
+            if (tab === 'trend') loadInsTrend();
+        }
+
+        const insHeaders = () => {
+            const token = localStorage.getItem('dashboard_token');
+            return token ? { 'Authorization': token } : {};
+        };
+
+        async function loadInsDashData() {
+            const date = document.getElementById('insDashDate').value;
+            if (!date) return;
+            logInsActivity('load_data', date);
+
+            const schoolsTbody = document.getElementById('insSchoolsTbody');
+            const absentsTbody = document.getElementById('insAbsentsTbody');
+            schoolsTbody.innerHTML = '<tr><td colspan="7" class="loader"><i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...</td></tr>';
+            absentsTbody.innerHTML = '<tr><td colspan="6" class="loader"><i class="fas fa-spinner fa-spin"></i> Yuklanmoqda...</td></tr>';
+
+            try {
+                const tumanUrl = `/api/stats/tuman?tuman=${encodeURIComponent(insMyDistrict)}&date=${date}&limit=500&offset=0`;
+                const absentsUrl = `/api/stats/absentees?date=${date}&limit=1000&offset=0`;
+
+                const [tumanRes, absentsRes] = await Promise.all([
+                    fetch(tumanUrl, { headers: insHeaders() }),
+                    fetch(absentsUrl, { headers: insHeaders() })
+                ]);
+
+                const tumanData = await tumanRes.json();
+                const absentsData = await absentsRes.json();
+
+                const allRows = (tumanData.rows || []).filter(r => insMySchools.includes(r.school));
+                insMySchools.forEach(s => {
+                    if (!allRows.find(r => r.school === s)) {
+                        allRows.push({ school: s, total_students: 0, sababli_jami: 0, sababsiz_jami: 0, total_absent: 0, percent: 0 });
+                    }
+                });
+
+                const allAbsents = (absentsData.rows || []).filter(r => r.district === insMyDistrict && insMySchools.includes(r.school));
+
+                let totalSababsiz = 0, totalPercents = 0, submittedCount = 0;
+                allRows.forEach(r => {
+                    if (parseInt(r.total_students) > 0) {
+                        submittedCount++;
+                        totalSababsiz += parseInt(r.sababsiz_jami) || 0;
+                        totalPercents += parseFloat(r.percent) || 0;
+                    }
+                });
+                document.getElementById('ins_stat_submitted').textContent = submittedCount + ' / ' + insMySchools.length;
+                document.getElementById('ins_stat_sababsiz').textContent = totalSababsiz;
+                document.getElementById('ins_stat_avg').textContent = submittedCount > 0 ? (totalPercents / submittedCount).toFixed(1) + '%' : '—';
+
+                schoolsTbody.innerHTML = '';
+                allRows.forEach(r => {
+                    const st = parseInt(r.total_students) || 0;
+                    const p = parseFloat(r.percent) || 0;
+                    const badgeClass = st === 0 ? 'badge-gray' : (p >= 95 ? 'badge-green' : (p >= 85 ? 'badge-yellow' : 'badge-red'));
+                    const badgeLabel = st === 0 ? 'Kiritilmadi' : (p >= 95 ? 'Yaxshi' : (p >= 85 ? "O'rtacha" : 'Past'));
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td><b>${r.school}</b></td>
+                    <td style="text-align:center">${st || '<span style="color:#475569">–</span>'}</td>
+                    <td style="text-align:center; color:#14b8a6">${r.sababli_jami || 0}</td>
+                    <td style="text-align:center; color:#ef4444; font-weight:${(r.sababsiz_jami || 0) > 0 ? '700' : 'normal'}">${r.sababsiz_jami || 0}</td>
+                    <td style="text-align:center"><span class="badge ${badgeClass}" style="font-size:0.72rem">${st > 0 ? p.toFixed(1) + '%' : '–'}</span></td>
+                    <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+                    <td>${r.bildirgi ? `<a href="/api/admin/reports/download/${r.bildirgi.split(/[\/\\]/).pop()}" target="_blank" style="color:#10b981; font-size:12px; text-decoration:none;"><i class="fas fa-file-pdf"></i> Ko'rish</a>` : '<span style="color:#475569">—</span>'}</td>
+                `;
+                    schoolsTbody.appendChild(tr);
+                });
+                if (allRows.length === 0) schoolsTbody.innerHTML = '<tr><td colspan="7" class="empty-msg">Ma\'lumot topilmadi</td></tr>';
+
+                absentsTbody.innerHTML = '';
+                if (allAbsents.length === 0) {
+                    absentsTbody.innerHTML = '<tr><td colspan="6" class="empty-msg" style="color:#10b981;"><i class="fas fa-check-circle"></i> Sababsiz kelmaganlar yo\'q</td></tr>';
+                } else {
+                    allAbsents.forEach(r => {
+                        const streak = r.streak || 1;
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                        <td><b>${r.school}</b></td>
+                        <td>${r.class || '–'}</td>
+                        <td><b>${r.name || '–'}</b></td>
+                        <td style="font-size:0.82rem">${r.parent_name || '–'}</td>
+                        <td style="color:#818cf8">${r.parent_phone || '–'}</td>
+                        <td><span class="badge ${streak >= 3 ? 'badge-red' : 'badge-yellow'}">${streak >= 3 ? '🔴 Muntazam' : '🟡 Odatiy'}</span></td>
+                    `;
+                        absentsTbody.appendChild(tr);
+                    });
+                }
+            } catch (e) {
+                schoolsTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#ef4444; padding:30px;">Xatolik: ${e.message}<br><small>Server bilan ulanishni tekshiring</small></td></tr>`;
+            }
+        }
+
+        async function loadInsTrend() {
+            const container = document.getElementById('insTrendContent');
+            container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin fa-2x"></i><br><p>Tahlil qilinmoqda...</p></div>';
+            logInsActivity('view_trend');
+
+            try {
+                const today = new Date();
+                const rows = [];
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date(today);
+                    d.setDate(d.getDate() - i);
+                    if (d.getDay() === 0) continue;
+                    const dateStr = d.toISOString().split('T')[0];
+                    try {
+                        const res = await fetch(`/api/stats/tuman?tuman=${encodeURIComponent(insMyDistrict)}&date=${dateStr}&limit=500&offset=0`, { headers: insHeaders() });
+                        const data = await res.json();
+                        const filtered = (data.rows || []).filter(r => insMySchools.includes(r.school) && parseInt(r.total_students) > 0);
+                        const avg = filtered.length > 0 ? (filtered.reduce((a, b) => a + parseFloat(b.percent), 0) / filtered.length).toFixed(1) : null;
+                        rows.push({ date: dateStr, avg, count: filtered.length });
+                    } catch (e) { rows.push({ date: dateStr, avg: null, count: 0 }); }
+                }
+                if (rows.length === 0) { container.innerHTML = '<div class="empty-msg">Ma\'lumot topilmadi</div>'; return; }
+                let html = '<div style="overflow-x:auto;"><table class="ins-table"><thead><tr><th>Sana</th>';
+                insMySchools.forEach(s => html += `<th style="font-size:0.75rem; max-width:100px; word-break:break-word">${s.replace('maktab', 'm.')}</th>`);
+                html += `<th>O'rtacha</th></tr></thead><tbody>`;
+                for (const row of rows) {
+                    const dateLabel = row.date.split('-').slice(1).join('.');
+                    html += `<tr><td style="white-space:nowrap; color:#94a3b8">${dateLabel}</td>`;
+                    for (const s of insMySchools) html += `<td style="text-align:center; font-size:0.82rem; color:#64748b" id="trend_${row.date}_${s.replace(/\s+/g, '_')}">…</td>`;
+                    const avgClass = !row.avg ? '#475569' : (parseFloat(row.avg) >= 95 ? '#10b981' : (parseFloat(row.avg) >= 85 ? '#f59e0b' : '#ef4444'));
+                    html += `<td style="text-align:center; font-weight:700; color:${avgClass}">${row.avg ? row.avg + '%' : '—'}</td></tr>`;
+                }
+                html += '</tbody></table></div>'; container.innerHTML = html;
+                for (const row of rows) {
+                    const res = await fetch(`/api/stats/tuman?tuman=${encodeURIComponent(insMyDistrict)}&date=${row.date}&limit=100`, { headers: insHeaders() });
+                    const d = await res.json();
+                    insMySchools.forEach(s => {
+                        const e = (d.rows || []).find(r => r.school === s);
+                        const cell = document.getElementById(`trend_${row.date}_${s.replace(/\s+/g, '_')}`);
+                        if (cell) {
+                            if (e && parseInt(e.total_students) > 0) {
+                                const p = parseFloat(e.percent);
+                                const c = p >= 95 ? '#10b981' : (p >= 85 ? '#f59e0b' : '#ef4444');
+                                cell.innerHTML = `<span style="color:${c}; font-weight:600">${p.toFixed(1)}%</span>`;
+                            } else {
+                                cell.innerHTML = '<span style="color:#334155">—</span>';
+                            }
+                        }
+                    });
+                }
+            } catch (e) { container.innerHTML = `<div class="empty-msg">Error: ${e.message}</div>`; }
+        }
+
+        // Language is handled globally by script.js
+
+        function startLiveClock() {
+            const el = document.getElementById('liveClock');
+            if (!el) return;
+            const tick = () => {
+                const now = new Date(new Date().getTime() + (5 * 60 + new Date().getTimezoneOffset()) * 60000);
+                el.textContent = now.toTimeString().slice(0, 8);
+            };
+            tick(); setInterval(tick, 1000);
+        }
+    </script>
+
+<script>
+function goToInsStep2() {
+    const fio = document.getElementById("insFio").value.trim();
+    const phone = document.getElementById("insPhone").value.trim();
+    if (!fio) return alert("Iltimos, ismingizni kiriting!");
+    if (!phone) return alert("Iltimos, telefon raqamingizni kiriting!");
+    document.getElementById("insStep1").style.display = "none";
+    document.getElementById("insStep2").style.display = "block";
+}
+
+function validateSchoolCount() {
+    const val = parseInt(document.getElementById("insSchoolsCount").value) || 0;
+    document.getElementById("expectedCount").textContent = val;
+    const grid = document.getElementById("insSchoolsGrid");
+    if(val <= 0) {
+        grid.style.pointerEvents = "none";
+        grid.style.opacity = "0.5";
+    } else {
+        grid.style.pointerEvents = "auto";
+        grid.style.opacity = "1";
+    }
+}
+</script>
+
+    <!-- Between Us Promo Widget -->
+    
+    <script>
+        (function() {
+            if (typeof updateTopHeaderAuth === 'function') {
+                updateTopHeaderAuth();
+            }
+        })();
+    </script>
+
+        
+
+        <!-- 5. IXCHAM COMPACT FOOTER -->
+        
+    
+    </main>
+    
+    
+    <!-- 3. SMOOTH SCROLLING MARQUEE TICKER (AYLANUVCHI SARIQ LENTALI TEST REJIM) -->
+    <div class="app-system-test-banner" id="testModeBanner">
+        <div class="test-banner-marquee-track">
+            <div class="test-banner-marquee-content">
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+                <span><i class="fas fa-exclamation-triangle"></i> DIQQAT: TIZIM HOZIRDA TEST REJIMIDA ISHLAMOQDA! BARCHA KIRITILGAN MA'LUMOTLAR SINOV XARAKTERIGA EGA &bull; FERGHANAREGDAVOMAT 2026 &bull; BARCHA TIZIMLAR TEST VA MONITORING JARAYONIDA</span>
+            </div>
+        </div>
+        <button onclick="document.getElementById('testModeBanner').style.display='none'" class="banner-close-btn" title="Yopish">&times;</button>
+    </div>
+
+    <!-- 4. KENGAYTIRILGAN TO'LIQ FOOTER (MANZIL, TELEFON, UZINFOCOM VA BETWEEN US HAMKOR) -->
+    <footer class="app-sticky-footer" id="appStickyFooter">
+        <div class="footer-col-left">
+            <img src="assets/logo.png" onerror="this.src='../assets/logo.png'" alt="Logo" class="footer-org-logo">
+            <div class="footer-org-details">
+                <div class="footer-org-title">Ferghanaregdavomat &bull; Farg'ona VMMTB</div>
+                <div class="footer-org-sub">
+                    <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> Farg'ona sh., Dodxox ko'chasi, 2-uy &bull; 
+                    <i class="fas fa-phone-alt" style="color:#38bdf8;"></i> +998 91 328 44 00</div>
+            </div>
+        </div>
+
+        <div class="footer-col-center">
+            <div class="footer-uzinfocom-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span data-i18n="footer_uzinfocom">UZINFOCOM tomonidan nazoratdan o‘tgan</span>
+            </div>
+            <span class="footer-copy" data-i18n="footer_copy">&copy; 2026 Farg'ona VMMTB. Barcha huquqlar himoyalangan.</span>
+        </div>
+
+        <div class="footer-col-right">
+            <span class="footer-partner-label" data-i18n="footer_partner">Rasmiy hamkor:</span>
+            <a href="https://t.me/between_us_team" target="_blank" class="footer-partner-box" title="Between Us rasmiy telegram kanali">
+                <img src="assets/partners/between_us_1.png" onerror="this.src='../assets/partners/between_us_1.png'" alt="Between Us" class="footer-partner-logo">
+                <span class="footer-partner-name">Between Us Team</span>
+            </a>
+        </div>
+    </footer>
+    <script src="promo-widget.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
