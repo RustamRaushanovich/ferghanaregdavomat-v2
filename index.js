@@ -86,7 +86,11 @@ if (!process.env.VERCEL) {
 
 
 const uploadDir = path.join(__dirname, 'assets', 'uploads');
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+try {
+    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+} catch (e) {
+    console.warn("Upload dir creation skipped:", e.message);
+}
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => { cb(null, uploadDir); },
@@ -120,14 +124,24 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.get('/', (req, res) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.sendFile(path.join(__dirname, 'dashboard', 'index.html'));
+    const p = path.join(__dirname, 'dashboard', 'index.html');
+    if (fs.existsSync(p)) return res.sendFile(p);
+    const pAlt = path.join(process.cwd(), 'dashboard', 'index.html');
+    if (fs.existsSync(pAlt)) return res.sendFile(pAlt);
+    res.sendFile(p, (err) => {
+        if (err && !res.headersSent) res.redirect('/dashboard/index.html');
+    });
 });
 
 app.get('/admin.html', (req, res) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    res.sendFile(path.join(__dirname, 'dashboard', 'admin.html'));
+    const p = path.join(__dirname, 'dashboard', 'admin.html');
+    if (fs.existsSync(p)) return res.sendFile(p);
+    const pAlt = path.join(process.cwd(), 'dashboard', 'admin.html');
+    if (fs.existsSync(pAlt)) return res.sendFile(pAlt);
+    res.sendFile(p, (err) => {
+        if (err && !res.headersSent) res.redirect('/dashboard/admin.html');
+    });
 });
 
 app.get('/api/health', (req, res) => {
@@ -1159,7 +1173,8 @@ app.use('/api', securityShield);
 
 const { getSchools, saveData } = require('./src/services/sheet');
 
-const bot = new Telegraf(process.env.BOT_TOKEN, {
+const botToken = process.env.BOT_TOKEN || '8421014179:AAFrDHsgueHljJuj1Lx5m_JG5wzVPbVAyeE';
+const bot = new Telegraf(botToken, {
     handlerTimeout: 90000 
 });
 const PORT = process.env.PORT || 3000;
