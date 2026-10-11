@@ -1,26 +1,25 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "dashboard/**",
-          "assets/**",
-          "src/**"
-        ]
-      }
-    }
+    { "src": "index.js", "use": "@vercel/node", "config": { "includeFiles": ["dashboard/**", "assets/**", "src/**"] } },
+    { "src": "dashboard/**", "use": "@vercel/static" },
+    { "src": "assets/**", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/api/(.*)", "dest": "/index.js" },
     {
-      "src": "/assets/(.*)",
-      "dest": "/index.js"
+      "src": "/assets/(.*\\.(?:mp4|MP4|png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf|pdf))",
+      "headers": { "Cache-Control": "public, max-age=604800, immutable" },
+      "dest": "/assets/$1"
     },
+    { "src": "/assets/(.*\\.(?:json|css|js))", "dest": "/assets/$1" },
+    { "src": "/", "dest": "/dashboard/index.html" },
     {
-      "src": "/(.*)",
-      "dest": "/index.js"
-    }
+      "src": "/([^/]+\\.(?:json|svg|png|jpg|jpeg|webp|ico|css|js))",
+      "headers": { "Cache-Control": "public, max-age=3600" },
+      "dest": "/dashboard/$1"
+    },
+    { "src": "/((?!admin\\.html)[^/]+\\.html)", "dest": "/dashboard/$1" },
+    { "src": "/(.*)", "dest": "/index.js" }
   ]
 }
